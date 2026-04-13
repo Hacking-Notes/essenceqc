@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EssenceQC — Comparez les prix de l'essence en temps réel au Québec | 2400+ stations</title>
+<meta name="theme-color" content="#0A0A0C">
+<meta name="description" content="Trouvez l'essence la moins chère au Québec. 2400+ stations en temps réel.">
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIkVzc2VuY2VRQyIsICJzaG9ydF9uYW1lIjogIkVzc2VuY2VRQyIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMEEwQTBDIiwgInRoZW1lX2NvbG9yIjogIiMwMDU1QTQifQ==">
+<!-- SEO Meta Tags -->
+<meta name="description" content="Comparez les prix de l'essence en temps réel partout au Québec. Plus de 2400 stations, données officielles de la Régie de l'énergie. Trouvez le meilleur prix près de chez vous.">
+<meta name="keywords" content="essence, prix essence, gaz, Québec, station-service, prix carburant, diesel, meilleur prix, comparateur essence, EssenceQC, Régie énergie">
+<meta name="author" content="EssenceQC">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://essence-qc.com">
+<meta name="language" content="fr-CA">
+<meta http-equiv="content-language" content="fr-CA">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://essence-qc.com">
+<meta property="og:title" content="EssenceQC — Prix de l'essence en temps réel au Québec">
+<meta property="og:description" content="Comparez les prix de plus de 2400 stations d'essence au Québec. Données officielles. Trouvez le moins cher près de chez vous.">
+<meta property="og:image" content="https://essence-qc.com/og-image.png">
+<meta property="og:locale" content="fr_CA">
+<meta property="og:site_name" content="EssenceQC">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EssenceQC — Prix de l'essence en temps réel au Québec">
+<meta name="twitter:description" content="Comparez les prix de plus de 2400 stations d'essence au Québec. Données officielles de la Régie de l'énergie.">
+<meta name="twitter:image" content="https://essence-qc.com/og-image.png">
+
+<!-- Structured Data / JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "EssenceQC",
+  "url": "https://essence-qc.com",
+  "description": "Comparateur de prix d'essence en temps réel pour le Québec. Plus de 2400 stations avec données officielles de la Régie de l'énergie.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CAD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "EssenceQC"
+  },
+  "inLanguage": "fr-CA",
+  "isAccessibleForFree": true,
+  "browserRequirements": "Requires JavaScript",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://essence-qc.com?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Apple / PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EssenceQC">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+:root,html[data-theme="dark"]{
+  --bg:#0A0A0C;--card:#131316;--elev:#1A1A1E;--overlay:#222226;
+  --border:#1F1F24;--bh:#333338;
+  --t1:#EFEFEF;--t2:#A8A8B0;--t3:#6E6E78;--t4:#48484E;--t5:#2C2C32;
+  --blue:#0055A4;--bl:#3B82F6;--blg:rgba(59,130,246,.06);
+  --grn:#22C55E;--grng:rgba(34,197,94,.07);
+  --red:#EF4444;--redg:rgba(239,68,68,.06);
+  --sans:'Plus Jakarta Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
+  --header-bg:rgba(10,10,12,.82);
+}
+html[data-theme="light"]{
+  --bg:#F5F5F7;--card:#FFFFFF;--elev:#F0F0F2;--overlay:#E8E8EC;
+  --border:#E0E0E4;--bh:#D0D0D4;
+  --t1:#111111;--t2:#555555;--t3:#888888;--t4:#AAAAAA;--t5:#CCCCCC;
+  --blg:rgba(0,85,164,.06);--grng:rgba(34,197,94,.06);--redg:rgba(239,68,68,.05);
+  --header-bg:rgba(245,245,247,.85);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{min-height:100%;background:var(--bg);color:var(--t1);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .3s,color .3s}
+#root{min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--sans);cursor:pointer;border:none;background:none;color:inherit}
+
+@keyframes enterUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}70%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes drive{0%{transform:translateX(-36px)}48%{transform:translateX(180px)}52%{transform:translateX(180px) scaleX(-1)}100%{transform:translateX(-36px) scaleX(-1)}}
+@keyframes dash{to{stroke-dashoffset:-14}}
+@keyframes glow{0%,100%{opacity:.2}50%{opacity:.5}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes chipPop{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes countUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes toastIn{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{to{transform:translateY(-20px);opacity:0}}
+
+.en{opacity:0;animation:enterUp .45s cubic-bezier(.22,1,.36,1) forwards}
+.d1{animation-delay:.02s}.d2{animation-delay:.04s}.d3{animation-delay:.06s}.d4{animation-delay:.08s}
+.d5{animation-delay:.1s}.d6{animation-delay:.13s}.d7{animation-delay:.16s}.d8{animation-delay:.19s}
+.d9{animation-delay:.22s}.d10{animation-delay:.25s}.d11{animation-delay:.28s}.d12{animation-delay:.31s}
+.d13{animation-delay:.34s}.d14{animation-delay:.37s}
+
+.mx{max-width:620px;margin:0 auto;padding:0 16px;width:100%}
+@media(min-width:768px){.mx{max-width:680px;padding:0 24px}}
+
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:var(--border);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;cursor:grab;box-shadow:0 1px 6px rgba(0,0,0,.3);transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:none;cursor:grab}
+
+.chip{height:36px;padding:0 14px;border-radius:9px;font:600 12px var(--sans);display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--border);background:var(--card);color:var(--t3);transition:all .15s;-webkit-tap-highlight-color:transparent;flex-shrink:0}
+.chip:hover{border-color:var(--bh);transform:translateY(-1px)}.chip:active{transform:scale(.96)}
+.chip.on{background:var(--blg);border-color:rgba(59,130,246,.25);color:var(--bl);animation:chipPop .25s ease}
+
+.si{position:relative;z-index:30}
+.si input{width:100%;height:44px;padding:0 40px 0 42px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--t1);font:500 14px var(--sans);outline:none;transition:all .2s}
+.si input:focus{border-color:var(--bl);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+.si input::placeholder{color:var(--t4)}
+.si .sico{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--t4);pointer-events:none;transition:color .2s}
+.si input:focus~.sico{color:var(--bl)}
+.si .clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--t4);transition:all .12s}
+.si .clr:hover{background:var(--overlay);color:var(--t2)}
+
+.dd{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1.5px solid var(--border);border-radius:14px;z-index:60;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .2s ease}
+.dd button{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;font:500 14px var(--sans);text-align:left;transition:background .08s;border-left:2px solid transparent}
+.dd button:hover{background:var(--elev);border-left-color:var(--bl)}
+.dd .ck{font:500 11px var(--mono);color:var(--t4);margin-left:auto;background:var(--bg);padding:2px 8px;border-radius:4px}
+
+.stn{background:var(--card);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;user-select:none}
+.stn:hover{border-color:var(--bh);transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.stn:active{transform:scale(.998)}.stn.best{border-color:rgba(34,197,94,.18)}
+.stn .inner{display:flex;align-items:center;padding:13px 14px;gap:11px}
+@media(min-width:768px){.stn .inner{padding:15px 18px;gap:13px}}
+.mbg{display:inline-flex;align-items:center;justify-content:center;height:16px;padding:0 5px;border-radius:4px;background:var(--redg);border:1px solid rgba(239,68,68,.12);flex-shrink:0;margin-left:4px;overflow:hidden}
+.mbg img{height:12px;width:auto;display:block;border-radius:2px}
+.pills{display:flex;gap:4px;margin:6px 0}
+.pill{flex:1;padding:5px 4px;border-radius:7px;text-align:center;background:var(--bg);border:1px solid var(--border);transition:all .15s}
+.pill.act{background:var(--blg);border-color:rgba(59,130,246,.1)}
+.pill .pk{font:700 8px var(--mono);color:var(--t4);letter-spacing:.7px;text-transform:uppercase;margin-bottom:1px}
+.pill .pv{font:600 13px var(--mono);font-variant-numeric:tabular-nums}
+.nbtn{display:flex;align-items:center;justify-content:center;gap:6px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--bl));color:#fff;font:600 13px var(--sans);width:100%;transition:all .12s}
+.nbtn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(59,130,246,.2)}.nbtn:active{transform:scale(.98)}
+.stat{background:var(--card);border-radius:12px;padding:13px 8px;text-align:center;border:1px solid var(--border);transition:all .2s;cursor:default}
+.stat:hover{transform:translateY(-2px);border-color:var(--bh)}
+.stat .sl{font:700 9px var(--mono);color:var(--t4);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.stat .sv{font:600 17px var(--mono);font-variant-numeric:tabular-nums}
+.hero{border-radius:16px;padding:22px 18px;text-align:center;border:1px solid rgba(34,197,94,.1);background:linear-gradient(135deg,rgba(34,197,94,.03),rgba(59,130,246,.02));position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(34,197,94,.03),transparent,rgba(59,130,246,.02));background-size:200% 200%;animation:gradientShift 6s ease infinite}
+.sp{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--bl);border-radius:50%;animation:spin .5s linear infinite}
+.live{width:6px;height:6px;border-radius:50%;background:var(--grn);animation:livePulse 2s ease-in-out infinite}
+.lds{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:200;transition:opacity .5s ease,visibility .5s}
+.lds.off{opacity:0;visibility:hidden;pointer-events:none}
+
+.toast{position:fixed;top:64px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--t2);font:500 13px var(--sans);z-index:100;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(0,0,0,.3);animation:toastIn .3s ease,toastOut .3s ease 2.5s forwards;pointer-events:none}
+
+.view-toggle{display:flex;border-radius:10px;border:1.5px solid var(--border);overflow:hidden;background:var(--card)}
+.view-toggle button{padding:8px 16px;font:600 12px var(--sans);color:var(--t3);transition:all .15s;border-right:1px solid var(--border)}
+.view-toggle button:last-child{border-right:none}
+.view-toggle button.on{background:var(--blg);color:var(--bl)}
+
+
+
+.tab-section{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
+.tab-header{display:flex;border-bottom:1px solid var(--border)}
+.tab-header button{flex:1;padding:12px;font:600 13px var(--sans);color:var(--t3);transition:all .12s;border-bottom:2px solid transparent}
+.tab-header button.on{color:var(--bl);border-bottom-color:var(--bl);background:var(--blg)}
+.tab-body{padding:14px}
+.tab-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.tab-row:last-child{border-bottom:none}
+
+.theme-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--t3);transition:border-color .15s,color .15s}
+.theme-btn:hover{border-color:var(--bh);color:var(--t2)}
+.theme-btn:active{transform:scale(.9)}
+
+.more-btn{margin-top:8px;width:100%;height:42px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--t3);font:600 13px var(--sans);transition:all .15s}
+.more-btn:hover{border-color:var(--bh);transform:translateY(-1px)}.more-btn:active{transform:scale(.98)}
+.loc-btn{height:36px;padding:0 14px;border-radius:9px;display:flex;align-items:center;gap:6px;font:600 12px var(--sans);transition:all .15s;flex-shrink:0}
+.loc-btn:hover{transform:translateY(-1px)}.loc-btn:active{transform:scale(.96)}
+.loc-btn.active{border:1.5px solid rgba(59,130,246,.2);background:var(--blg);color:var(--bl)}
+.loc-btn.inactive{border:1.5px solid var(--border);background:var(--card);color:var(--t3)}
+
+.share-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--t4);transition:all .15s;flex-shrink:0}
+.share-btn:hover{border-color:var(--bh);color:var(--t2)}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<noscript>
+  <div style="max-width:700px;margin:40px auto;padding:20px;font-family:sans-serif">
+    <h1>EssenceQC — Prix de l'essence en temps réel au Québec</h1>
+    <p>EssenceQC est un comparateur gratuit de prix d'essence en temps réel pour le Québec. Consultez les prix de plus de 2400 stations-service partout dans la province.</p>
+    <h2>Fonctionnalités</h2>
+    <ul>
+      <li>Prix en temps réel de toutes les stations du Québec (Régulier, Super, Diesel)</li>
+      <li>Recherche par ville ou par géolocalisation</li>
+      <li>Tri par prix ou par distance</li>
+      <li>Filtre par marque (Costco, Petro-Canada, Shell, Ultramar, etc.)</li>
+      <li>Calculateur de coût de plein d'essence</li>
+      <li>Comparaison par région et par marque</li>
+      <li>Mode clair et sombre</li>
+    </ul>
+    <h2>Source des données</h2>
+    <p>Les données proviennent de la <a href="https://www.regie-energie.qc.ca">Régie de l'énergie du Québec</a> via le portail <a href="https://regieessencequebec.ca">regieessencequebec.ca</a>. Conformément à la Loi 69, tous les détaillants d'essence au Québec doivent déclarer leurs prix en temps réel depuis le 1er avril 2026.</p>
+    <h2>Villes populaires</h2>
+    <p>Montréal, Québec, Laval, Gatineau, Longueuil, Sherbrooke, Saguenay, Trois-Rivières, Lévis, Terrebonne, Drummondville, Saint-Jérôme, Granby, Rimouski, Joliette, Val-d'Or, Rouyn-Noranda, Sept-Îles, Alma, Magog</p>
+    <p>Activez JavaScript pour utiliser l'application.</p>
+  </div>
+</noscript>
+<script type="text/babel">
+const {useState,useMemo,useEffect,useCallback,useRef}=React;
+const API="https://regieessencequebec.ca/stations.geojson.gz";
+const FL={regular:"Régulier",super:"Super",diesel:"Diesel"};
+const MEM=["Costco"];const PG=12;const MORE=20;
+const COSTCO_IMG="https://play-lh.googleusercontent.com/WIdPqETfzE7sfSQTElsQyHm-EDqh1v82xJkhBo9jil2-QP6dk8c3PjfVpvvLlpsHfhI=w240-h480-rw";
+const BC={Costco:"#E31837","Petro-Canada":"#D62828",Shell:"#FDD835",Esso:"#1565C0","Couche-Tard":"#E53935",Ultramar:"#1976D2",Harnois:"#2E7D32",Sonic:"#E64A19",Crevier:"#558B2F",Axco:"#F57F17",Pioneer:"#1E88E5","Canadian Tire":"#D32F2F",Pétro:"#FF6F00"};
+
+const parseP=p=>{if(!p)return null;const n=parseFloat(String(p).replace(/[¢\u00A2$\s]/g,""));return isNaN(n)?null:n};
+const hav=(a,b,c,d)=>{const R=6371,dL=(c-a)*Math.PI/180,dN=(d-b)*Math.PI/180;const x=Math.sin(dL/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dN/2)**2;return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x))};
+const lr=(a,b,t)=>Math.round(a+(b-a)*t);
+const pC=(diff,sp)=>{if(sp===0)return{bg:"var(--grng)",fg:"var(--grn)"};const t=Math.min(diff/sp,1);if(t<.5){const p=t*2;return{bg:`rgba(${lr(34,245,p)},${lr(197,158,p)},${lr(94,11,p)},.07)`,fg:`rgb(${lr(34,245,p)},${lr(197,158,p)},${lr(94,11,p)})`}};const p=(t-.5)*2;return{bg:`rgba(${lr(245,239,p)},${lr(158,68,p)},${lr(11,68,p)},.07)`,fg:`rgb(${lr(245,239,p)},${lr(158,68,p)},${lr(11,68,p)})`}};
+const isM=b=>MEM.includes(b);
+const fmtAgo=d=>{const s=Math.floor((Date.now()-d.getTime())/1000);if(s<60)return"maintenant";const m=Math.floor(s/60);if(m<60)return m+" min";return Math.floor(m/60)+"h"};
+
+function LoadScreen({show}){
+  return(<div className={"lds"+(show?"":" off")}>
+    <div style={{animation:"float 3s ease-in-out infinite",marginBottom:32}}>
+      <svg width="180" height="46" viewBox="0 0 180 46" fill="none">
+        <g opacity=".35" style={{animation:"glow 2.5s ease infinite"}}><rect x="6" y="6" width="12" height="20" rx="2" stroke="#333" strokeWidth="1.1"/><rect x="9" y="10" width="6" height="4" rx=".5" fill="#333" opacity=".3"/><path d="M18 12h3a2 2 0 012 2v4" stroke="#333" strokeWidth="1" strokeLinecap="round"/><rect x="8" y="2" width="7" height="4" rx="1" stroke="#333" strokeWidth="1"/></g>
+        <line x1="0" y1="34" x2="180" y2="34" stroke="#181818" strokeWidth="1.5"/><line x1="0" y1="34" x2="180" y2="34" stroke="#282828" strokeWidth=".5" strokeDasharray="5 4" style={{animation:"dash .6s linear infinite"}}/>
+        <g style={{animation:"drive 3.2s ease-in-out infinite"}}><rect x="2" y="24" width="16" height="7" rx="1.5" fill="#282828"/><path d="M5 24l1.5-4h7l1.5 4" fill="#303030"/><circle cx="6" cy="32" r="1.8" fill="#181818" stroke="#303030" strokeWidth=".5"/><circle cx="15" cy="32" r="1.8" fill="#181818" stroke="#303030" strokeWidth=".5"/></g>
+        <g opacity=".35" transform="translate(180,0) scale(-1,1)" style={{animation:"glow 2.5s ease infinite .7s"}}><rect x="6" y="6" width="12" height="20" rx="2" stroke="#333" strokeWidth="1.1"/><rect x="9" y="10" width="6" height="4" rx=".5" fill="#333" opacity=".3"/><path d="M18 12h3a2 2 0 012 2v4" stroke="#333" strokeWidth="1" strokeLinecap="round"/><rect x="8" y="2" width="7" height="4" rx="1" stroke="#333" strokeWidth="1"/></g>
+      </svg>
+    </div>
+    <svg width="36" height="36" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginBottom:8}}>
+  <defs><linearGradient id="llg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#333340"/><stop offset="100%" stopColor="#444450"/></linearGradient></defs>
+  <rect x="3" y="6" width="14" height="18" rx="2.5" fill="url(#llg)" opacity=".6"/>
+  <rect x="6" y="9" width="8" height="5" rx="1.2" fill="#0A0A0C" opacity=".6"/>
+  <rect x="8" y="16" width="4" height="2" rx=".8" fill="#0A0A0C" opacity=".3"/>
+  <rect x="6" y="2" width="8" height="4.5" rx="1.5" fill="url(#llg)" opacity=".4"/>
+  <path d="M17 11h2.5a2.5 2.5 0 012.5 2.5V20a2 2 0 01-2 2h0a2 2 0 01-2-2v-3" stroke="url(#llg)" strokeWidth="2" strokeLinecap="round" fill="none" opacity=".5"/>
+  <circle cx="20" cy="11" r="1.2" fill="#444450" opacity=".5"/>
+</svg>
+      <div style={{fontSize:20,fontWeight:500,color:"#404048"}}>Essence<span style={{fontWeight:800,color:"#505058"}}>QC</span></div>
+    <div style={{fontSize:12,color:"#2A2A30",marginTop:6}}>Chargement des stations...</div>
+    <div style={{width:120,height:2,borderRadius:1,marginTop:20,background:"#181820",overflow:"hidden"}}>
+      <div style={{height:"100%",background:"linear-gradient(90deg,transparent,#3B82F6,transparent)",backgroundSize:"200% 100%",animation:"shimmer 1.5s ease infinite"}}/>
+    </div>
+  </div>);
+}
+
+function Toast({msg}){
+  if(!msg)return null;
+  return <div className="toast"><div className="live" style={{width:5,height:5}}/>{msg}</div>;
+}
+
+function App(){
+  const [st,setSt]=useState([]);const [ld,setLd]=useState(true);const [rdy,setRdy]=useState(false);
+  const [meta,setMeta]=useState(null);const [lr,setLr]=useState(null);
+  const [ctr,setCtr]=useState(null);const [gs,setGs]=useState("idle");
+  const [fuel,setFuel]=useState("regular");const [sort,setSort]=useState("price");
+  const [rad,setRad]=useState(15);const [tank,setTank]=useState(50);
+  const [sel,setSel]=useState(null);const [vis,setVis]=useState(PG);
+  const [q,setQ]=useState("");const [sug,setSug]=useState([]);const [cities,setCities]=useState([]);
+  const [view,setView]=useState("list"); // list | map | regions | brands
+  const [brandFilter,setBrandFilter]=useState(null);
+  const [theme,setTheme]=useState("dark");
+  const [toast,setToast]=useState(null);
+  const sRef=useRef(null);const dbRef=useRef(null);
+  const [key,setKey]=useState(0);
+
+  const showToast=msg=>{setToast(msg);setTimeout(()=>setToast(null),3000)};
+
+  // Theme
+  useEffect(()=>{document.documentElement.setAttribute("data-theme",theme)},[theme]);
+  const toggleTheme=()=>{setTheme(t=>t==="dark"?"light":"dark")};
+
+  // Fetch
+  const fetchD=useCallback(async(silent=false)=>{
+    if(!silent)setLd(true);
+    try{
+      const r=await fetch(API,{cache:"no-cache"});if(!r.ok)throw new Error();
+      const g=await r.json();setMeta(g.metadata||null);
+      const parsed=(g.features||[]).map(f=>{
+        const p=f.properties||{},co=f.geometry?.coordinates||[];
+        const gp=t=>{const fd=(p.Prices||[]).find(x=>x.GasType===t);return fd?.IsAvailable?parseP(fd.Price):null};
+        return{name:p.Name||"",brand:p.brand||"Autre",address:p.Address||"",postal:p.PostalCode||"",region:p.Region||"",lat:co[1],lon:co[0],regular:gp("Régulier"),super:gp("Super"),diesel:gp("Diesel"),status:p.Status};
+      }).filter(s=>s.lat&&s.lon&&s.status==="En opération");
+      setSt(parsed);setLr(new Date());
+      if(silent)showToast("Données mises à jour");
+      const cityMap=new Map();
+      parsed.forEach(s=>{
+        const parts=(s.address||"").split(",").map(p=>p.trim());
+        let city=parts.length>=2?parts[parts.length-1].replace(/\s*\(.*?\)\s*/g,"").trim():null;
+        if(!city||city.length<2||/^\d/.test(city))return;
+        const cityNorm=city.split(/\s+/).map(w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(" ").replace(/-./g,m=>"-"+m[1].toUpperCase());
+        if(cityMap.has(cityNorm)){const ex=cityMap.get(cityNorm);ex.count++}
+        else{cityMap.set(cityNorm,{name:cityNorm,lat:s.lat,lon:s.lon,count:1})}
+      });
+      // Recalculate avg coordinates for cities with multiple stations
+      cityMap.forEach((city,name)=>{
+        const matching=parsed.filter(s=>{
+          const parts=(s.address||"").split(",").map(p=>p.trim());
+          const cn=parts.length>=2?parts[parts.length-1].replace(/\s*\(.*?\)\s*/g,"").trim():"";
+          const norm=cn.split(/\s+/).map(w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(" ").replace(/-./g,m=>"-"+m[1].toUpperCase());
+          return norm===name;
+        });
+        if(matching.length>0){
+          city.lat=matching.reduce((a,x)=>a+x.lat,0)/matching.length;
+          city.lon=matching.reduce((a,x)=>a+x.lon,0)/matching.length;
+          city.count=matching.length;
+        }
+      });
+      setCities([...cityMap.values()].sort((a,b)=>b.count-a.count));
+      if(!rdy)setTimeout(()=>setRdy(true),900);
+    }catch(e){console.error(e);if(!rdy)setRdy(true);}finally{setLd(false)}
+  },[rdy]);
+
+  useEffect(()=>{fetchD();const iv=setInterval(()=>fetchD(true),60000);return()=>clearInterval(iv)},[]);
+
+  // Geo
+  const reqGeo=useCallback(()=>{
+    if(!navigator.geolocation){setGs("unavailable");return}setGs("loading");
+    navigator.geolocation.getCurrentPosition(
+      p=>{setCtr({lat:p.coords.latitude,lon:p.coords.longitude,label:"Ma position"});setGs("granted")},
+      e=>{setGs(e.code===1?"denied":"error")},
+      {enableHighAccuracy:false,timeout:15000,maximumAge:120000}
+    );
+  },[]);
+  useEffect(()=>{reqGeo()},[reqGeo]);
+  const [geoTimeout,setGeoTimeout]=useState(false);
+  useEffect(()=>{if(gs==="loading"){const t=setTimeout(()=>setGeoTimeout(true),8000);return()=>clearTimeout(t)}else{setGeoTimeout(false)}},[gs]);
+
+  // Search
+  const doSearch=useCallback(v=>{
+    if(!v.trim()){setSug([]);return}
+    const lo=v.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+    setSug(cities.filter(c=>c.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").includes(lo)).slice(0,7));
+  },[cities]);
+  const onInput=v=>{setQ(v);clearTimeout(dbRef.current);dbRef.current=setTimeout(()=>doSearch(v),80)};
+  const pickCity=c=>{setCtr({lat:c.lat,lon:c.lon,label:c.name});setQ(c.name);setSug([]);setSel(null);setVis(PG);setKey(k=>k+1)};
+  const useMe=()=>{setQ("");setSug([]);reqGeo();setSel(null);setVis(PG);setKey(k=>k+1)};
+  useEffect(()=>{const h=e=>{if(sRef.current&&!sRef.current.contains(e.target))setSug([])};document.addEventListener("mousedown",h);return()=>document.removeEventListener("mousedown",h)},[]);
+  useEffect(()=>{setVis(PG);setSel(null)},[fuel,rad]);
+
+  // Keyboard shortcuts
+  useEffect(()=>{const h=e=>{
+    if(e.target.tagName==="INPUT")return;
+    if(e.key==="r"||e.key==="R")fetchD(true);
+    if(e.key==="1")setFuel("regular");if(e.key==="2")setFuel("super");if(e.key==="3")setFuel("diesel");
+    if(e.key==="l"||e.key==="L")setView("list");
+  };document.addEventListener("keydown",h);return()=>document.removeEventListener("keydown",h)},[]);
+
+  // Filtered
+  const filt=useMemo(()=>{
+    if(!ctr)return[];
+    let r=st.map(s=>({...s,dist:hav(ctr.lat,ctr.lon,s.lat,s.lon)})).filter(s=>s.dist<=rad&&s[fuel]!=null);
+    if(brandFilter)r=r.filter(s=>s.brand===brandFilter);
+    return r.sort((a,b)=>sort==="price"?a[fuel]-b[fuel]:a.dist-b.dist);
+  },[ctr,fuel,rad,st,sort,brandFilter]);
+
+  const ch=filt[0]?.[fuel]||0,pr=filt[filt.length-1]?.[fuel]||0,sp=pr-ch;
+  const avg=filt.length?filt.reduce((a,s)=>a+s[fuel],0)/filt.length:0;
+  const shown=filt.slice(0,vis),hasMore=vis<filt.length;
+
+  // All brands in range
+  const brandsInRange=useMemo(()=>{
+    const map=new Map();
+    filt.forEach(s=>{if(!map.has(s.brand))map.set(s.brand,0);map.set(s.brand,map.get(s.brand)+1)});
+    return[...map.entries()].sort((a,b)=>b[1]-a[1]).map(([b,c])=>({brand:b,count:c}));
+  },[filt]);
+
+  // Regions data
+  const regions=useMemo(()=>{
+    if(!ctr)return[];
+    const map=new Map();
+    st.forEach(s=>{
+      if(!s.region||s[fuel]==null)return;
+      if(!map.has(s.region))map.set(s.region,{prices:[],count:0});
+      const r=map.get(s.region);r.prices.push(s[fuel]);r.count++;
+    });
+    return[...map.entries()].map(([name,d])=>({name,avg:d.prices.reduce((a,b)=>a+b,0)/d.prices.length,min:Math.min(...d.prices),count:d.count})).sort((a,b)=>a.avg-b.avg);
+  },[st,fuel,ctr]);
+
+  // Brand ranking
+  const brandRanking=useMemo(()=>{
+    if(!ctr)return[];
+    const map=new Map();
+    filt.forEach(s=>{
+      if(!map.has(s.brand))map.set(s.brand,{prices:[],count:0});
+      const r=map.get(s.brand);r.prices.push(s[fuel]);r.count++;
+    });
+    return[...map.entries()].map(([brand,d])=>({brand,avg:d.prices.reduce((a,b)=>a+b,0)/d.prices.length,min:Math.min(...d.prices),count:d.count})).filter(r=>r.count>=1).sort((a,b)=>a.avg-b.avg);
+  },[filt,fuel]);
+
+  // Share
+  const shareStn=async(s,e)=>{
+    e.stopPropagation();
+    const text=`${s.brand} - ${s.address}\n${FL[fuel]}: ${(s[fuel]/100).toFixed(2)} $/L\nvia EssenceQC`;
+    if(navigator.share){try{await navigator.share({title:"EssenceQ",text});return}catch{}}
+    try{await navigator.clipboard.writeText(text);showToast("Copié!")}catch{}
+  };
+
+  
+
+
+  const mu=s=>"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(s.lat+","+s.lon);
+
+  return(
+    <>
+      <LoadScreen show={!rdy}/>
+      <Toast msg={toast}/>
+      {rdy&&(
+        <div style={{minHeight:"100vh",display:"flex",flexDirection:"column",animation:"fadeIn .4s ease"}}>
+          {/* Header */}
+          <header style={{height:52,borderBottom:"1px solid var(--border)",background:"var(--header-bg)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",position:"sticky",top:0,zIndex:40}}>
+            <div className="mx" style={{display:"flex",alignItems:"center",justifyContent:"space-between",height:"100%"}}>
+              <div style={{display:"flex",alignItems:"center",gap:8}}>
+  <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{flexShrink:0}}>
+  <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#0055A4"/><stop offset="100%" stopColor="#3B82F6"/></linearGradient></defs>
+  <rect x="3" y="6" width="14" height="18" rx="2.5" fill="url(#lg)"/>
+  <rect x="6" y="9" width="8" height="5" rx="1.2" fill="var(--bg)" opacity=".85"/>
+  <rect x="8" y="16" width="4" height="2" rx=".8" fill="var(--bg)" opacity=".4"/>
+  <rect x="6" y="2" width="8" height="4.5" rx="1.5" fill="url(#lg)" opacity=".7"/>
+  <path d="M17 11h2.5a2.5 2.5 0 012.5 2.5V20a2 2 0 01-2 2h0a2 2 0 01-2-2v-3" stroke="url(#lg)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+  <circle cx="20" cy="11" r="1.2" fill="var(--bl)"/>
+</svg>
+  <span style={{fontSize:19,letterSpacing:-.3}}><span style={{fontWeight:400}}>Essence</span><span style={{fontWeight:800,color:"var(--bl)"}}>QC</span></span>
+</div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                {lr&&<span style={{fontSize:10,color:"var(--t4)",fontFamily:"var(--mono)",padding:"3px 8px",background:"var(--card)",borderRadius:6,border:"1px solid var(--border)"}}>{fmtAgo(lr)}</span>}
+                <button className="theme-btn" onClick={toggleTheme} title={theme==="dark"?"Mode clair":"Mode sombre"}>
+                  {theme==="dark"?<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                  :<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>}
+                </button>
+                <button onClick={()=>fetchD(true)} title="Rafraîchir (R)" style={{width:30,height:30,borderRadius:8,border:"1px solid var(--border)",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--t3)",transition:"all .15s"}}>
+                  {ld?<div className="sp"/>:<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0115.38-6.36L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 01-15.38 6.36L3 16"/></svg>}
+                </button>
+                {!ld&&st.length>0&&<div className="live"/>}
+              </div>
+            </div>
+          </header>
+
+          <main className="mx" style={{flex:1,paddingTop:16,paddingBottom:50}}>
+            {/* Search */}
+            <div className="en d1" ref={sRef} style={{position:"relative",marginBottom:10,zIndex:30}}>
+              <div className="si">
+                <svg className="sico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input value={q} onChange={e=>onInput(e.target.value)} placeholder="Rechercher une ville..." onFocus={()=>{if(q)doSearch(q)}}/>
+                {q&&<button className="clr" onClick={()=>{setQ("");setSug([])}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>}
+              </div>
+              {sug.length>0&&<div className="dd">{sug.map((c,i)=>(<button key={i} onClick={()=>pickCity(c)}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t4)" strokeWidth="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span style={{fontWeight:500}}>{c.name}</span><span className="ck">{c.count}</span></button>))}</div>}
+            </div>
+
+            {/* Location + tank */}
+            <div className="en d2" style={{display:"flex",gap:6,marginBottom:14,flexWrap:"wrap",alignItems:"center"}}>
+              <button className={"loc-btn "+(ctr?.label==="Ma position"?"active":"inactive")} onClick={useMe}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+                {gs==="loading"?"...":"Ma position"}
+              </button>
+              {ctr&&ctr.label!=="Ma position"&&(
+                <div style={{height:36,padding:"0 12px",borderRadius:9,display:"flex",alignItems:"center",gap:4,background:"var(--blg)",border:"1.5px solid rgba(59,130,246,.15)",fontSize:12,fontWeight:600,color:"var(--bl)",animation:"popIn .3s ease"}}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span style={{maxWidth:160,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ctr.label}</span>
+                </div>
+              )}
+              <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:4}}>
+                <span style={{fontSize:10,color:"var(--t4)"}}>Réservoir:</span>
+                <select value={tank} onChange={e=>setTank(Number(e.target.value))} style={{background:"var(--card)",color:"var(--t2)",border:"1px solid var(--border)",borderRadius:7,padding:"4px 8px",fontSize:12,fontFamily:"var(--mono)",outline:"none",cursor:"pointer"}}>
+                  {[30,35,40,45,50,55,60,65,70,80,90,100].map(v=><option key={v} value={v}>{v}L</option>)}
+                </select>
+              </div>
+            </div>
+
+            {/* Fuel + Sort */}
+            <div className="en d3" style={{display:"flex",gap:5,marginBottom:10,flexWrap:"wrap",alignItems:"center"}}>
+              {["regular","super","diesel"].map((f,i)=>(<button key={f} className={"chip"+(fuel===f?" on":"")} onClick={()=>setFuel(f)} title={`Raccourci: ${i+1}`}>{FL[f]}</button>))}
+              <div style={{marginLeft:"auto",display:"flex",gap:4}}>
+                <button className={"chip"+(sort==="price"?" on":"")} onClick={()=>setSort("price")} style={{height:32,fontSize:11,padding:"0 10px"}}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2v20M7 7l5-5 5 5"/></svg>Prix
+                </button>
+                <button className={"chip"+(sort==="dist"?" on":"")} onClick={()=>setSort("dist")} style={{height:32,fontSize:11,padding:"0 10px"}}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="3"/></svg>Dist.
+                </button>
+              </div>
+            </div>
+
+
+
+            {/* Radius */}
+            <div className="en d5" style={{marginBottom:18}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
+                <span style={{fontSize:10,fontWeight:700,color:"var(--t4)",letterSpacing:1,textTransform:"uppercase"}}>Rayon</span>
+                <span style={{fontFamily:"var(--mono)",fontSize:16,fontWeight:500,fontVariantNumeric:"tabular-nums"}}>{rad}<span style={{fontSize:10,color:"var(--t4)",marginLeft:2}}>km</span></span>
+              </div>
+              <div style={{position:"relative"}}>
+                <div style={{position:"absolute",top:0,left:0,height:4,borderRadius:2,width:((rad-1)/99*100)+"%",background:"linear-gradient(90deg,var(--blue),var(--bl))",zIndex:1,pointerEvents:"none",transition:"width .03s"}}/>
+                <input type="range" min={1} max={100} step={1} value={rad} onChange={e=>setRad(Number(e.target.value))}/>
+              </div>
+            </div>
+
+            {/* Empty state */}
+            {!ctr&&(
+              <div className="en d6" style={{textAlign:"center",padding:"40px 20px",background:"var(--card)",borderRadius:16,border:"1px solid var(--border)"}}>
+                {gs==="loading"&&!geoTimeout?(
+                  <>
+                    <div style={{margin:"0 auto 20px",width:180}}>
+                      <svg width="180" height="36" viewBox="0 0 180 36" fill="none" style={{animation:"float 2.5s ease-in-out infinite"}}>
+                        <line x1="0" y1="28" x2="180" y2="28" stroke="var(--border)" strokeWidth="1.5"/>
+                        <line x1="0" y1="28" x2="180" y2="28" stroke="var(--t5)" strokeWidth=".5" strokeDasharray="5 4" style={{animation:"dash .6s linear infinite"}}/>
+                        <g style={{animation:"drive 3s ease-in-out infinite"}}>
+                          <rect x="2" y="18" width="16" height="7" rx="1.5" fill="var(--t5)"/>
+                          <path d="M5 18l1.5-4h7l1.5 4" fill="var(--t4)"/>
+                          <circle cx="6" cy="26" r="1.8" fill="var(--bg)" stroke="var(--t5)" strokeWidth=".5"/>
+                          <circle cx="15" cy="26" r="1.8" fill="var(--bg)" stroke="var(--t5)" strokeWidth=".5"/>
+                        </g>
+                      </svg>
+                    </div>
+                    <div style={{fontSize:14,fontWeight:600,marginBottom:4}}>Recherche de votre position...</div>
+                    <div style={{fontSize:12,color:"var(--t4)"}}>Veuillez autoriser la localisation dans votre navigateur.</div>
+                  </>
+                ):(
+                  <>
+                    <div style={{animation:"float 3s ease-in-out infinite",marginBottom:14}}>
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--t5)" strokeWidth="1.2"><circle cx="12" cy="12" r="10"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
+                    <div style={{fontSize:15,fontWeight:600,marginBottom:4}}>
+                      {gs==="denied"?"Localisation bloquée":geoTimeout?"La localisation prend trop de temps":"Choisissez un emplacement"}
+                    </div>
+                    <div style={{fontSize:13,color:"var(--t3)",lineHeight:1.5,maxWidth:320,margin:"0 auto 14px"}}>
+                      {gs==="denied"
+                        ?"Votre navigateur bloque l'accès. Recherchez une ville ci-dessus ou vérifiez les permissions."
+                        :geoTimeout
+                          ?"Recherchez une ville ci-dessus ou réessayez la localisation."
+                          :"Utilisez le bouton Ma position ou recherchez une ville ci-dessus."}
+                    </div>
+                    {(gs==="denied"||geoTimeout)&&(
+                      <button onClick={useMe} style={{padding:"10px 24px",borderRadius:10,background:"var(--blg)",border:"1.5px solid rgba(59,130,246,.2)",color:"var(--bl)",fontSize:13,fontWeight:600,cursor:"pointer",transition:"all .15s"}}>
+                        Réessayer la localisation
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* Results */}
+            {ctr&&(
+              <div key={key}>
+                {/* View toggle */}
+                <div className="en d6" style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14,gap:8}}>
+                  <div className="view-toggle">
+                    {[{k:"list",l:"Liste",ico:<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>},
+                      
+                      {k:"regions",l:"Régions",ico:<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>},
+                      {k:"brands",l:"Marques",ico:<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>}
+                    ].map(v=>(<button key={v.k} className={view===v.k?"on":""} onClick={()=>setView(v.k)} style={{display:"flex",alignItems:"center",gap:4}}>{v.ico}{v.l}</button>))}
+                  </div>
+                  {brandsInRange.length>1&&(
+                    <select value={brandFilter||""} onChange={e=>setBrandFilter(e.target.value||null)}
+                      style={{height:36,padding:"0 28px 0 10px",borderRadius:9,border:"1.5px solid var(--border)",background:"var(--card)",color:brandFilter?"var(--bl)":"var(--t3)",fontSize:12,fontWeight:600,fontFamily:"var(--sans)",outline:"none",cursor:"pointer",appearance:"none",WebkitAppearance:"none",backgroundImage:`url("data:image/svg+xml,${encodeURIComponent('<svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M1 1l4 4 4-4\" stroke=\"%236E6E78\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>')}")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 10px center",transition:"all .15s",maxWidth:160}}>
+                      <option value="">Toutes les marques</option>
+                      {brandsInRange.filter(b=>b.brand!=="Aucun"&&b.brand!=="Autre").map(b=>(
+                        <option key={b.brand} value={b.brand}>{b.brand} ({b.count})</option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+
+                {/* Hero */}
+                {filt.length>0&&view==="list"&&(
+                  <div className="hero en d7" style={{marginBottom:14,position:"relative"}}>
+                    <div style={{fontSize:10,color:"var(--t3)",letterSpacing:1.5,textTransform:"uppercase",fontWeight:700,marginBottom:8,fontFamily:"var(--mono)"}}>Meilleur prix</div>
+                    <div style={{fontFamily:"var(--mono)",fontSize:42,fontWeight:600,color:"var(--grn)",lineHeight:1,letterSpacing:-2,fontVariantNumeric:"tabular-nums",animation:"countUp .5s ease"}}>
+                      {(ch/100).toFixed(2)}<span style={{fontSize:15,color:"var(--t3)",fontWeight:400}}> $/L</span>
+                    </div>
+                    <div style={{fontSize:13,color:"var(--t2)",marginTop:6}}>
+                      {filt[0].brand!=="Aucun"?filt[0].brand:filt[0].name}{isM(filt[0].brand)&&" (membre)"} · {filt[0].dist.toFixed(1)} km
+                    </div>
+                    <div style={{fontSize:13,color:"var(--t2)",marginTop:2,fontFamily:"var(--mono)"}}>
+                      Plein de {tank}L: <span style={{color:"var(--t1)",fontWeight:600}}>{(ch*tank/100).toFixed(2)}$</span>
+                    </div>
+                    {sp>0&&(
+                      <div style={{marginTop:12,display:"inline-flex",alignItems:"center",gap:6,background:"var(--grng)",border:"1px solid rgba(34,197,94,.1)",borderRadius:8,padding:"5px 14px",animation:"popIn .4s ease .2s both"}}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+                        <span style={{fontSize:12,fontWeight:600,color:"var(--grn)"}}>Économie: {(sp*tank/100).toFixed(2)}$ sur {tank}L</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Stats */}
+                {view==="list"&&(
+                  <div className="en d8" style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:5,marginBottom:12}}>
+                    {[{l:"Stations",v:String(filt.length),c:"var(--t1)"},{l:"Meilleur",v:ch?(ch/100).toFixed(2):"--",c:"var(--grn)"},{l:"Moyenne",v:avg?(avg/100).toFixed(2):"--",c:"var(--t2)"}]
+                    .map((s,i)=>(<div key={i} className="stat"><div className="sl">{s.l}</div><div className="sv" style={{color:s.c}}>{s.v}</div></div>))}
+                  </div>
+                )}
+
+                
+                {/* REGIONS VIEW */}
+                {view==="regions"&&(
+                  <div className="tab-section en d7">
+                    <div style={{padding:"14px 16px",borderBottom:"1px solid var(--border)"}}>
+                      <div style={{fontSize:14,fontWeight:600}}>Prix moyen par région</div>
+                      <div style={{fontSize:11,color:"var(--t3)",marginTop:2}}>{FL[fuel]} · {regions.length} régions</div>
+                    </div>
+                    <div style={{maxHeight:400,overflowY:"auto"}}>
+                      {regions.map((r,i)=>(
+                        <div key={r.name} className="tab-row" style={{padding:"10px 16px"}}>
+                          <div style={{flex:1}}>
+                            <div style={{fontSize:13,fontWeight:500}}>{i===0?"🏆 ":""}{r.name}</div>
+                            <div style={{fontSize:11,color:"var(--t4)",marginTop:1}}>{r.count} stations</div>
+                          </div>
+                          <div style={{textAlign:"right"}}>
+                            <div style={{fontFamily:"var(--mono)",fontSize:15,fontWeight:600,color:i===0?"var(--grn)":"var(--t1)"}}>{(r.avg/100).toFixed(2)} $</div>
+                            <div style={{fontSize:10,color:"var(--t4)",fontFamily:"var(--mono)"}}>min: {(r.min/100).toFixed(2)}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* BRANDS VIEW */}
+                {view==="brands"&&(
+                  <div className="tab-section en d7">
+                    <div style={{padding:"14px 16px",borderBottom:"1px solid var(--border)"}}>
+                      <div style={{fontSize:14,fontWeight:600}}>Classement par marque</div>
+                      <div style={{fontSize:11,color:"var(--t3)",marginTop:2}}>{FL[fuel]} · dans {rad} km · plein de {tank}L</div>
+                    </div>
+                    <div style={{maxHeight:400,overflowY:"auto"}}>
+                      {brandRanking.filter(r=>r.brand!=="Aucun"&&r.brand!=="Autre").map((r,i)=>(
+                        <div key={r.brand} className="tab-row" style={{padding:"10px 16px"}}>
+                          <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
+                            <span style={{width:8,height:8,borderRadius:"50%",background:BC[r.brand]||"var(--t4)",flexShrink:0}}/>
+                            <div>
+                              <div style={{fontSize:13,fontWeight:600}}>{i===0?"🏆 ":""}{r.brand}{isM(r.brand)&&<span className="mbg" style={{height:14,padding:"0 3px",marginLeft:4}}><img src={COSTCO_IMG} alt="C" style={{height:10}}/></span>}</div>
+                              <div style={{fontSize:11,color:"var(--t4)",marginTop:1}}>{r.count} stations</div>
+                            </div>
+                          </div>
+                          <div style={{textAlign:"right"}}>
+                            <div style={{fontFamily:"var(--mono)",fontSize:15,fontWeight:600,color:i===0?"var(--grn)":"var(--t1)"}}>{(r.avg/100).toFixed(2)} $</div>
+                            <div style={{fontSize:10,color:"var(--t4)",fontFamily:"var(--mono)"}}>{(r.avg*tank/100).toFixed(2)}$ /{tank}L</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* LIST VIEW */}
+                {view==="list"&&(
+                  <>
+                    <div className="en d9" style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:7,padding:"0 2px"}}>
+                      <span style={{fontSize:11,color:"var(--t3)"}}>{sort==="price"?"Triées par prix "+FL[fuel].toLowerCase():"Triées par distance"}</span>
+                      <span style={{display:"flex",alignItems:"center",gap:3,fontSize:9,color:"var(--t4)"}}><span className="mbg" style={{height:13,padding:"0 3px"}}><img src={COSTCO_IMG} alt="C" style={{height:9}}/></span>Membres</span>
+                    </div>
+                    {filt.length===0?(
+                      <div style={{textAlign:"center",padding:"44px 20px",background:"var(--card)",borderRadius:14,border:"1px solid var(--border)"}}>
+                        <div style={{animation:"float 2s ease-in-out infinite",marginBottom:12}}><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--t4)" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/></svg></div>
+                        <div style={{fontSize:14,fontWeight:600}}>Aucune station</div>
+                        <div style={{fontSize:12,color:"var(--t4)",marginTop:3}}>Augmentez le rayon ou changez de filtre.</div>
+                      </div>
+                    ):(
+                      <>
+                        <div style={{display:"flex",flexDirection:"column",gap:4}}>
+                          {shown.map((s,i)=>{
+                            const price=s[fuel],diff=price-ch,pc=pC(diff,sp);
+                            const isE=sel===i,isB=i===0;
+                            const bl=s.brand!=="Aucun"&&s.brand!=="Autre"?s.brand:s.name;
+                            return(
+                              <div key={s.name+s.lat+i} className={"stn en d"+Math.min(i+10,14)+(isB?" best":"")} onClick={()=>setSel(isE?null:i)}>
+                                <div className="inner">
+                                  <div style={{width:32,height:32,borderRadius:8,flexShrink:0,background:pc.bg,display:"flex",alignItems:"center",justifyContent:"center",border:"1px solid "+pc.fg+"12",transition:"all .2s"}}>
+                                    <span style={{fontFamily:"var(--mono)",fontSize:11,fontWeight:700,color:pc.fg,fontVariantNumeric:"tabular-nums"}}>{i+1}</span>
+                                  </div>
+                                  <div style={{flex:1,minWidth:0}}>
+                                    <div style={{display:"flex",alignItems:"center",fontSize:13,fontWeight:600}}>
+                                      <span style={{width:7,height:7,borderRadius:"50%",background:BC[s.brand]||"var(--t5)",flexShrink:0,marginRight:5}}/>
+                                      <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{bl}</span>
+                                      {isM(s.brand)&&<span className="mbg"><img src={COSTCO_IMG} alt="Costco" style={{height:11}}/></span>}
+                                    </div>
+                                    <div style={{display:"flex",gap:6,marginTop:1,fontSize:11,color:"var(--t3)"}}>
+                                      <span>{s.dist.toFixed(1)} km</span>
+                                      {diff===0?<span style={{color:"var(--grn)",fontWeight:600}}>Meilleur</span>:<span style={{color:"var(--red)",fontFamily:"var(--mono)"}}>+{diff.toFixed(1)}{"\u00A2"}</span>}
+                                    </div>
+                                  </div>
+                                  <div style={{textAlign:"right",flexShrink:0}}>
+                                    <div style={{fontFamily:"var(--mono)",fontSize:19,fontWeight:600,color:isB?"var(--grn)":"var(--t1)",lineHeight:1,fontVariantNumeric:"tabular-nums"}}>{(price/100).toFixed(2)}</div>
+                                    <div style={{fontSize:9,color:"var(--t4)",fontFamily:"var(--mono)",marginTop:1}}>{(price*tank/100).toFixed(0)}$ /{tank}L</div>
+                                  </div>
+                                  {/* Share */}
+                                  <button className="share-btn" onClick={(e)=>shareStn(s,e)} title="Partager">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+                                  </button>
+                                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--t4)" strokeWidth="2.5" strokeLinecap="round" style={{flexShrink:0,transition:"transform .2s",transform:isE?"rotate(180deg)":""}}>
+                                    <path d="M6 9l6 6 6-6"/>
+                                  </svg>
+                                </div>
+                                <div style={{maxHeight:isE?250:0,opacity:isE?1:0,overflow:"hidden",transition:"all .25s cubic-bezier(.22,1,.36,1)",padding:isE?"0 14px 12px":"0 14px 0"}}>
+                                  <div style={{height:1,background:"var(--border)",marginBottom:7}}/>
+                                  <div style={{fontSize:12,color:"var(--t2)",fontWeight:500,marginBottom:1}}>{s.name}</div>
+                                  <div style={{fontSize:11,color:"var(--t3)",marginBottom:5,lineHeight:1.4}}>{s.address}{s.postal&&", "+s.postal}{s.region&&" — "+s.region}</div>
+                                  <div className="pills">
+                                    {["regular","super","diesel"].map(ft=>{const v=s[ft];return(<div key={ft} className={"pill"+(ft===fuel?" act":"")}>
+                                      <div className="pk">{FL[ft]}</div><div className="pv" style={{color:v?ft===fuel?"var(--bl)":"var(--t2)":"var(--t4)"}}>{v?(v/100).toFixed(2):"--"}</div>
+                                    </div>)})}
+                                  </div>
+                                  {isM(s.brand)&&(<div style={{display:"flex",alignItems:"center",gap:5,padding:"5px 9px",borderRadius:6,margin:"4px 0",background:"var(--redg)",border:"1px solid rgba(239,68,68,.06)"}}>
+                                    <span className="mbg" style={{height:13,padding:"0 3px"}}><img src={COSTCO_IMG} alt="C" style={{height:9}}/></span><span style={{fontSize:10,color:"var(--t3)"}}>Carte de membre Costco requise pour ce prix</span>
+                                  </div>)}
+                                  <a href={mu(s)} target="_blank" rel="noopener noreferrer" className="nbtn" onClick={e=>e.stopPropagation()} style={{marginTop:4}}>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Itinéraire
+                                  </a>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        {hasMore&&<button className="more-btn" onClick={()=>setVis(v=>v+MORE)}>Voir {Math.min(MORE,filt.length-vis)} stations de plus</button>}
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+          </main>
+
+          <footer style={{borderTop:"1px solid var(--border)",padding:"16px 0"}}>
+            <div className="mx" style={{display:"flex",flexDirection:"column",alignItems:"center",gap:10}}>
+              <div style={{display:"flex",alignItems:"center",gap:5,fontSize:10,color:"var(--t5)",flexWrap:"wrap",justifyContent:"center"}}>
+                <div className="live" style={{width:4,height:4}}/>
+                <span>Données en direct</span>
+                {meta&&<span>· {meta.total_stations} stations</span>}
+                <span style={{color:"var(--t4)"}}>· R=refresh 1/2/3=carburant</span>
+              </div>
+              <div style={{fontSize:11,color:"var(--t4)",lineHeight:1.6,textAlign:"center",maxWidth:400}}>
+                Les données proviennent de la <a href="https://www.regie-energie.qc.ca" target="_blank" rel="noopener noreferrer" style={{color:"var(--bl)",textDecoration:"underline",textUnderlineOffset:2}}>Régie de l'énergie du Québec</a> via leur portail <a href="https://regieessencequebec.ca" target="_blank" rel="noopener noreferrer" style={{color:"var(--bl)",textDecoration:"underline",textUnderlineOffset:2}}>regieessencequebec.ca</a>. Conformément à la Loi 69, les détaillants doivent déclarer leurs prix en temps réel.
+              </div>
+            </div>
+          </footer>
+        </div>
+      )}
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

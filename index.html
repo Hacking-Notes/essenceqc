@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>EssenceQC — Comparez les prix de l'essence en temps réel au Québec | 2400+ stations</title>
 <meta name="theme-color" content="#0A0A0C">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <meta name="description" content="Trouvez l'essence la moins chère au Québec. 2400+ stations en temps réel.">
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIkVzc2VuY2VRQyIsICJzaG9ydF9uYW1lIjogIkVzc2VuY2VRQyIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMEEwQTBDIiwgInRoZW1lX2NvbG9yIjogIiMwMDU1QTQifQ==">
 <!-- SEO Meta Tags -->
@@ -274,7 +277,7 @@ function Toast({msg}){
 function App(){
   const [st,setSt]=useState([]);const [ld,setLd]=useState(true);const [rdy,setRdy]=useState(false);
   const [meta,setMeta]=useState(null);const [lr,setLr]=useState(null);
-  const [ctr,setCtr]=useState(null);const [gs,setGs]=useState("idle");
+  const [ctr,setCtr]=useState(null);const [gs,setGs]=useState("loading");
   const [fuel,setFuel]=useState("regular");const [sort,setSort]=useState("price");
   const [rad,setRad]=useState(15);const [tank,setTank]=useState(50);
   const [sel,setSel]=useState(null);const [vis,setVis]=useState(PG);
@@ -458,7 +461,7 @@ function App(){
             </div>
           </header>
 
-          <main className="mx" style={{flex:1,paddingTop:16,paddingBottom:50}}>
+          <main className="mx" style={{flex:1,paddingTop:16,paddingBottom:80}}>
             {/* Search */}
             <div className="en d1" ref={sRef} style={{position:"relative",marginBottom:10,zIndex:30}}>
               <div className="si">

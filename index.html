@@ -757,18 +757,18 @@ function App(){
                 {view==="map"&&(
                   <div className="en d7">
                     <div className="map-box" ref={mapBoxRef}/>
-                    <div style={{display:"flex",justifyContent:"center",gap:8,padding:"6px 0",flexWrap:"wrap"}}>
-                      <button className="map-legend-btn" onClick={()=>flyToPrice("min")} title="Aller au moins cher">
-                        <span className="ldot" style={{background:"#22C55E"}}/>Moins cher
-                      </button>
-                      <button className="map-legend-btn" onClick={()=>flyToPrice("median")} title="Aller au prix median">
-                        <span className="ldot" style={{background:"#FBBF24"}}/>Moyen
-                      </button>
+                    <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:14,padding:"6px 0",flexWrap:"wrap"}}>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:11,color:"var(--t3)",fontWeight:500}}>
+                        <span style={{width:9,height:9,borderRadius:"50%",background:"#22C55E"}}/>Moins cher
+                      </span>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:11,color:"var(--t3)",fontWeight:500}}>
+                        <span style={{width:9,height:9,borderRadius:"50%",background:"#FBBF24"}}/>Moyen
+                      </span>
                       <button className="map-legend-btn" onClick={()=>flyToPrice("max")} title="Aller au plus cher">
                         <span className="ldot" style={{background:"#EF4444"}}/>Plus cher
                       </button>
                     </div>
-                    <div style={{textAlign:"center",fontSize:11,color:"var(--t5)",marginTop:4}}>{filt.length} stations affichées · cliquez la légende pour zoomer</div>
+                    <div style={{textAlign:"center",fontSize:11,color:"var(--t5)",marginTop:4}}>{filt.length} stations affichées · cliquez « Plus cher » pour le localiser</div>
                   </div>
                 )}
                 {/* REGIONS VIEW */}

@@ -175,6 +175,11 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .map-legend-btn:hover{border-color:var(--bh);color:var(--t1);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12)}
 .map-legend-btn:active{transform:scale(.96)}
 .map-legend-btn .ldot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.mini-map-link{display:block;border-radius:10px;overflow:hidden;border:1px solid var(--border);margin:6px 0 8px;cursor:pointer;position:relative;transition:border-color .2s,transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
+.mini-map-link:hover{border-color:var(--bl);transform:translateY(-1px);box-shadow:0 6px 18px rgba(59,130,246,.15)}
+.mini-map-link::after{content:"\2197 Google Maps";position:absolute;bottom:7px;right:7px;background:rgba(0,0,0,.78);color:#fff;font:600 9px var(--mono);padding:4px 8px;border-radius:5px;pointer-events:none;opacity:.85;transition:opacity .2s,background .2s;z-index:1000;letter-spacing:.3px}
+.mini-map-link:hover::after{opacity:1;background:var(--bl)}
+.mini-map-link .leaflet-container{pointer-events:none}
 .tab-section{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
 .tab-header{display:flex;border-bottom:1px solid var(--border)}
 .tab-header button{flex:1;padding:12px;font:600 13px var(--sans);color:var(--t3);transition:all .12s;border-bottom:2px solid transparent}
@@ -270,8 +275,11 @@ function Toast({msg}){
   if(!msg)return null;
   return <div className="toast"><div className="live" style={{width:5,height:5}}/>{msg}</div>;
 }
-function MiniMap({lat,lon,color,theme}){
+function MiniMap({lat,lon,color,theme,href}){
   const ref=useRef(null);
+  const mapRef=useRef(null);
+  const markerRef=useRef(null);
+  // Init carte (ne se recree pas quand seulement la couleur change)
   useEffect(()=>{
     if(!ref.current||typeof L==="undefined")return;
     let m;
@@ -280,25 +288,39 @@ function MiniMap({lat,lon,color,theme}){
         zoomControl:false,attributionControl:false,
         dragging:false,scrollWheelZoom:false,doubleClickZoom:false,
         touchZoom:false,boxZoom:false,keyboard:false,tap:false,
-        preferCanvas:true
+        preferCanvas:true,fadeAnimation:true
       });
       m.setView([lat,lon],14);
       const tileUrl=theme==="dark"
         ?"https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         :"https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
       L.tileLayer(tileUrl,{maxZoom:18}).addTo(m);
-      const icon=L.divIcon({
-        className:"",
-        html:'<div style="width:16px;height:16px;border-radius:50%;background:'+color+';border:2.5px solid '+(theme==="dark"?"#0A0A0C":"#fff")+';box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>',
-        iconSize:[16,16],iconAnchor:[8,8]
-      });
-      L.marker([lat,lon],{icon}).addTo(m);
+      mapRef.current=m;
       setTimeout(()=>{try{m.invalidateSize()}catch(e){}},120);
       setTimeout(()=>{try{m.invalidateSize()}catch(e){}},400);
     }catch(e){console.error(e)}
-    return ()=>{try{if(m)m.remove()}catch(e){}};
+    return ()=>{try{if(m)m.remove()}catch(e){}mapRef.current=null;markerRef.current=null;};
+  },[lat,lon,theme]);
+  // Marqueur (separe pour eviter de recreer la carte quand la couleur change)
+  useEffect(()=>{
+    if(!mapRef.current||typeof L==="undefined")return;
+    if(markerRef.current){try{mapRef.current.removeLayer(markerRef.current)}catch(e){}markerRef.current=null;}
+    const icon=L.divIcon({
+      className:"",
+      html:'<div style="width:16px;height:16px;border-radius:50%;background:'+color+';border:2.5px solid '+(theme==="dark"?"#0A0A0C":"#fff")+';box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>',
+      iconSize:[16,16],iconAnchor:[8,8]
+    });
+    try{markerRef.current=L.marker([lat,lon],{icon}).addTo(mapRef.current)}catch(e){}
   },[lat,lon,color,theme]);
-  return <div ref={ref} style={{width:"100%",height:140,borderRadius:10,overflow:"hidden",border:"1px solid var(--border)",margin:"6px 0 8px",cursor:"default"}}/>;
+  const inner=<div ref={ref} style={{width:"100%",height:140}}/>;
+  if(href){
+    return(
+      <a href={href} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="mini-map-link" title="Ouvrir dans Google Maps">
+        {inner}
+      </a>
+    );
+  }
+  return <div style={{borderRadius:10,overflow:"hidden",border:"1px solid var(--border)",margin:"6px 0 8px"}}>{inner}</div>;
 }
 function App(){
   const [st,setSt]=useState([]);const [ld,setLd]=useState(true);const [rdy,setRdy]=useState(false);
@@ -471,7 +493,8 @@ function App(){
         setTimeout(()=>{try{m.invalidateSize()}catch(e){}},600);
       }catch(e){console.error(e);return;}
     }else{
-      mapObjRef.current.setView([ctr.lat,ctr.lon],11);
+      try{mapObjRef.current.flyTo([ctr.lat,ctr.lon],11,{duration:.7})}
+      catch(e){mapObjRef.current.setView([ctr.lat,ctr.lon],11)}
       setTimeout(()=>{try{mapObjRef.current.invalidateSize()}catch(e){}},100);
     }
     // Nettoyer le cluster et le marqueur "moi" precedents
@@ -540,10 +563,10 @@ function App(){
     const open=()=>{try{marker.openPopup()}catch(e){}};
     if(clusterRef.current&&typeof clusterRef.current.zoomToShowLayer==="function"){
       try{clusterRef.current.zoomToShowLayer(marker,open)}
-      catch(e){mapObjRef.current.setView([station.lat,station.lon],15);setTimeout(open,300)}
+      catch(e){try{mapObjRef.current.flyTo([station.lat,station.lon],15,{duration:.8})}catch(_){mapObjRef.current.setView([station.lat,station.lon],15)}setTimeout(open,800)}
     }else{
-      mapObjRef.current.setView([station.lat,station.lon],15);
-      setTimeout(open,300);
+      try{mapObjRef.current.flyTo([station.lat,station.lon],15,{duration:.8})}catch(e){mapObjRef.current.setView([station.lat,station.lon],15)}
+      setTimeout(open,800);
     }
   };
   return(
@@ -693,7 +716,7 @@ function App(){
                   </div>
                   {brandsInRange.length>1&&(
                     <select className="brand-select" value={brandFilter||""} onChange={e=>setBrandFilter(e.target.value||null)}
-                      style={{height:36,padding:"0 28px",borderRadius:9,border:"1.5px solid var(--border)",background:"var(--card)",color:brandFilter?"var(--bl)":"var(--t3)",fontSize:12,fontWeight:600,fontFamily:"var(--sans)",outline:"none",cursor:"pointer",appearance:"none",WebkitAppearance:"none",backgroundImage:`url("data:image/svg+xml,${encodeURIComponent('<svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M1 1l4 4 4-4\" stroke=\"%236E6E78\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>')}")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 10px center",transition:"all .15s",maxWidth:160,textAlign:"center",textAlignLast:"center"}}>
+                      style={{height:36,padding:"0 28px",borderRadius:9,border:"1.5px solid var(--border)",background:"var(--card)",color:brandFilter?"var(--bl)":"var(--t3)",fontSize:12,fontWeight:600,fontFamily:"var(--sans)",outline:"none",cursor:"pointer",appearance:"none",WebkitAppearance:"none",backgroundImage:`url("data:image/svg+xml,${encodeURIComponent('<svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M1 1l4 4 4-4\" stroke=\"%236E6E78\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>')}")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 10px center",transition:"all .15s",minWidth:200,maxWidth:220,textAlign:"center",textAlignLast:"center"}}>
                       <option value="">Toutes les marques</option>
                       {brandsInRange.filter(b=>b.brand!=="Aucun"&&b.brand!=="Autre").map(b=>(
                         <option key={b.brand} value={b.brand}>{b.brand} ({b.count})</option>
@@ -850,7 +873,7 @@ function App(){
                               <div style={{height:1,background:"var(--border)",marginBottom:7}}/>
                               <div style={{fontSize:12,color:"var(--t2)",fontWeight:500,marginBottom:1}}>{s.name}</div>
                               <div style={{fontSize:11,color:"var(--t3)",marginBottom:5,lineHeight:1.4}}>{s.address}{s.postal&&", "+s.postal}{s.region&&" — "+s.region}</div>
-                              {isE&&<MiniMap lat={s.lat} lon={s.lon} color={pc.fg} theme={theme}/>}
+                              {isE&&<MiniMap lat={s.lat} lon={s.lon} color={pc.fg} theme={theme} href={mu(s)}/>}
                               <div className="pills">
                                 {["regular","super","diesel"].map(ft=>{const v=s[ft];return(<div key={ft} className={"pill"+(ft===fuel?" act":"")}>
                                   <div className="pk">{FL[ft]}</div><div className="pv" style={{color:v?ft===fuel?"var(--bl)":"var(--t2)":"var(--t4)"}}>{v?fmtP(v):"--"}</div>
@@ -922,7 +945,7 @@ function App(){
                                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
                                     </button>
                                   </div>
-                                  {isE&&<MiniMap lat={s.lat} lon={s.lon} color={isB?"#22C55E":pc.fg} theme={theme}/>}
+                                  {isE&&<MiniMap lat={s.lat} lon={s.lon} color={isB?"#22C55E":pc.fg} theme={theme} href={mu(s)}/>}
                                   <div className="pills">
                                     {["regular","super","diesel"].map(ft=>{const v=s[ft];return(<div key={ft} className={"pill"+(ft===fuel?" act":"")}>
                                       <div className="pk">{FL[ft]}</div><div className="pv" style={{color:v?ft===fuel?"var(--bl)":"var(--t2)":"var(--t4)"}}>{v?fmtP(v):"--"}</div>

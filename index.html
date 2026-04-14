@@ -326,13 +326,13 @@ function App(){
   const [st,setSt]=useState([]);const [ld,setLd]=useState(true);const [rdy,setRdy]=useState(false);
   const [meta,setMeta]=useState(null);const [lr,setLr]=useState(null);
   const [ctr,setCtr]=useState(null);const [gs,setGs]=useState("loading");
-  const [fuel,setFuel]=useState("regular");const [sort,setSort]=useState("price");
-  const [rad,setRad]=useState(15);const [tank,setTank]=useState(50);
+  const [fuel,setFuel]=useState(()=>{try{const v=localStorage.getItem("eqc-fuel");return v==="regular"||v==="super"||v==="diesel"?v:"regular"}catch{return"regular"}});const [sort,setSort]=useState("price");
+  const [rad,setRad]=useState(15);const [tank,setTank]=useState(()=>{try{const v=parseInt(localStorage.getItem("eqc-tank"),10);return Number.isFinite(v)&&v>=20&&v<=200?v:50}catch{return 50}});
   const [sel,setSel]=useState(null);const [vis,setVis]=useState(PG);
   const [q,setQ]=useState("");const [sug,setSug]=useState([]);const [cities,setCities]=useState([]);
   const [view,setView]=useState("list"); // list | map | regions | brands
   const [brandFilter,setBrandFilter]=useState(null);
-  const [theme,setTheme]=useState("dark");
+  const [theme,setTheme]=useState(()=>{try{const v=localStorage.getItem("eqc-theme");return v==="light"||v==="dark"?v:"dark"}catch{return"dark"}});
   const [toast,setToast]=useState(null);
   const sRef=useRef(null);const mapBoxRef=useRef(null);const mapObjRef=useRef(null);const mapMarkersRef=useRef([]);const dbRef=useRef(null);const clusterRef=useRef(null);const meMarkerRef=useRef(null);
   const [key,setKey]=useState(0);
@@ -347,6 +347,10 @@ function App(){
   // Theme
   useEffect(()=>{document.documentElement.setAttribute("data-theme",theme)},[theme]);
   const toggleTheme=()=>{setTheme(t=>t==="dark"?"light":"dark")};
+  // Persistance des preferences dans localStorage
+  useEffect(()=>{try{localStorage.setItem("eqc-fuel",fuel)}catch{}},[fuel]);
+  useEffect(()=>{try{localStorage.setItem("eqc-tank",String(tank))}catch{}},[tank]);
+  useEffect(()=>{try{localStorage.setItem("eqc-theme",theme)}catch{}},[theme]);
   // Fetch
   const fetchD=useCallback(async(silent=false)=>{
     if(!silent)setLd(true);

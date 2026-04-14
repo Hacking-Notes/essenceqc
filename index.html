@@ -368,6 +368,7 @@ function App(){
   const [installEvent,setInstallEvent]=useState(null);
   const [showInstall,setShowInstall]=useState(false);
   const [isIOS,setIsIOS]=useState(false);
+  const [isAndroid,setIsAndroid]=useState(false);
   useEffect(()=>{
     const ua=navigator.userAgent||"";
     const isMobile=/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua)||(navigator.maxTouchPoints>1&&window.innerWidth<900);
@@ -379,16 +380,21 @@ function App(){
       if(Number.isFinite(dismissed)&&Date.now()-dismissed<7*24*60*60*1000)return;
     }catch{}
     const ios=/iPad|iPhone|iPod/.test(ua)||(navigator.maxTouchPoints>1&&/Mac/i.test(navigator.platform));
-    if(ios){
-      setIsIOS(true);
-      const t=setTimeout(()=>setShowInstall(true),8000);
-      return()=>clearTimeout(t);
-    }
-    const handler=e=>{e.preventDefault();setInstallEvent(e);setTimeout(()=>setShowInstall(true),8000);};
+    const android=/Android/i.test(ua);
+    if(ios)setIsIOS(true);
+    if(android)setIsAndroid(true);
+    // Capturer beforeinstallprompt si Chrome le declenche
+    const handler=e=>{e.preventDefault();setInstallEvent(e);};
     window.addEventListener("beforeinstallprompt",handler);
-    const installed=()=>setShowInstall(false);
+    const installed=()=>{setShowInstall(false);setInstallEvent(null);};
     window.addEventListener("appinstalled",installed);
-    return()=>{window.removeEventListener("beforeinstallprompt",handler);window.removeEventListener("appinstalled",installed);};
+    // Toujours afficher le bandeau apres 8s (independamment de l'evenement)
+    const t=setTimeout(()=>setShowInstall(true),8000);
+    return()=>{
+      clearTimeout(t);
+      window.removeEventListener("beforeinstallprompt",handler);
+      window.removeEventListener("appinstalled",installed);
+    };
   },[]);
   const triggerInstall=async()=>{
     if(!installEvent)return;
@@ -1052,20 +1058,24 @@ function App(){
             <div className="install-banner" role="dialog" aria-label="Installer l'application">
               <div className="install-banner-icon">
                 <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="3" y="6" width="14" height="18" rx="2.5" fill="#fff"/>
-                  <rect x="6" y="9" width="8" height="5" rx="1.2" fill="var(--blue)" opacity=".55"/>
-                  <rect x="8" y="16" width="4" height="2" rx=".8" fill="var(--blue)" opacity=".4"/>
-                  <rect x="6" y="2" width="8" height="4.5" rx="1.5" fill="#fff" opacity=".75"/>
-                  <path d="M17 11h2.5a2.5 2.5 0 012.5 2.5V20a2 2 0 01-2 2h0a2 2 0 01-2-2v-3" stroke="#fff" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                  <circle cx="20" cy="11" r="1.2" fill="#fff"/>
+                  <g transform="translate(1.5 0)">
+                    <rect x="3" y="6" width="14" height="18" rx="2.5" fill="#fff"/>
+                    <rect x="6" y="9" width="8" height="5" rx="1.2" fill="var(--blue)" opacity=".55"/>
+                    <rect x="8" y="16" width="4" height="2" rx=".8" fill="var(--blue)" opacity=".4"/>
+                    <rect x="6" y="2" width="8" height="4.5" rx="1.5" fill="#fff" opacity=".75"/>
+                    <path d="M17 11h2.5a2.5 2.5 0 012.5 2.5V20a2 2 0 01-2 2h0a2 2 0 01-2-2v-3" stroke="#fff" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                    <circle cx="20" cy="11" r="1.2" fill="#fff"/>
+                  </g>
                 </svg>
               </div>
               <div className="install-banner-text">
                 <div className="install-banner-title">Installer EssenceQC</div>
                 {isIOS?(
                   <div className="install-ios-steps">Tapez <b>Partager</b> puis <b>Sur l'écran d'accueil</b></div>
+                ):installEvent?(
+                  <div className="install-banner-sub">Accès rapide depuis votre écran d'accueil</div>
                 ):(
-                  <div className="install-banner-sub">Accès rapide depuis votre écran d'accueil, sans navigateur</div>
+                  <div className="install-ios-steps">Menu <b>⋮</b> du navigateur puis <b>Installer l'application</b></div>
                 )}
               </div>
               {!isIOS&&installEvent&&(

@@ -18,7 +18,6 @@
 <link rel="canonical" href="https://essence-qc.com">
 <meta name="language" content="fr-CA">
 <meta http-equiv="content-language" content="fr-CA">
-
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://essence-qc.com">
@@ -27,13 +26,11 @@
 <meta property="og:image" content="https://essence-qc.com/og-image.png">
 <meta property="og:locale" content="fr_CA">
 <meta property="og:site_name" content="EssenceQC">
-
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="EssenceQC — Prix de l'essence en temps réel au Québec">
 <meta name="twitter:description" content="Comparez les prix de plus de 2400 stations d'essence au Québec. Données officielles de la Régie de l'énergie.">
 <meta name="twitter:image" content="https://essence-qc.com/og-image.png">
-
 <!-- Structured Data / JSON-LD -->
 <script type="application/ld+json">
 {
@@ -63,14 +60,15 @@
   }
 }
 </script>
-
 <!-- Apple / PWA -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="EssenceQC">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -100,7 +98,6 @@ body{min-height:100%;background:var(--bg);color:var(--t1);font-family:var(--sans
 #root{min-height:100vh;display:flex;flex-direction:column}
 a{color:inherit;text-decoration:none}
 button{font-family:var(--sans);cursor:pointer;border:none;background:none;color:inherit}
-
 @keyframes enterUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -116,25 +113,20 @@ button{font-family:var(--sans);cursor:pointer;border:none;background:none;color:
 @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 @keyframes toastIn{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes toastOut{to{transform:translateY(-20px);opacity:0}}
-
 .en{opacity:0;animation:enterUp .45s cubic-bezier(.22,1,.36,1) forwards}
 .d1{animation-delay:.02s}.d2{animation-delay:.04s}.d3{animation-delay:.06s}.d4{animation-delay:.08s}
 .d5{animation-delay:.1s}.d6{animation-delay:.13s}.d7{animation-delay:.16s}.d8{animation-delay:.19s}
 .d9{animation-delay:.22s}.d10{animation-delay:.25s}.d11{animation-delay:.28s}.d12{animation-delay:.31s}
 .d13{animation-delay:.34s}.d14{animation-delay:.37s}
-
 .mx{max-width:620px;margin:0 auto;padding:0 16px;width:100%}
 @media(min-width:768px){.mx{max-width:680px;padding:0 24px}}
-
 input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:var(--border);outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;cursor:grab;box-shadow:0 1px 6px rgba(0,0,0,.3);transition:transform .15s}
 input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:none;cursor:grab}
-
 .chip{height:36px;padding:0 14px;border-radius:9px;font:600 12px var(--sans);display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--border);background:var(--card);color:var(--t3);transition:all .15s;-webkit-tap-highlight-color:transparent;flex-shrink:0}
 .chip:hover{border-color:var(--bh);transform:translateY(-1px)}.chip:active{transform:scale(.96)}
 .chip.on{background:var(--blg);border-color:rgba(59,130,246,.25);color:var(--bl);animation:chipPop .25s ease}
-
 .si{position:relative;z-index:30}
 .si input{width:100%;height:44px;padding:0 40px 0 42px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--t1);font:500 14px var(--sans);outline:none;transition:all .2s}
 .si input:focus{border-color:var(--bl);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
@@ -143,12 +135,10 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .si input:focus~.sico{color:var(--bl)}
 .si .clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--t4);transition:all .12s}
 .si .clr:hover{background:var(--overlay);color:var(--t2)}
-
 .dd{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1.5px solid var(--border);border-radius:14px;z-index:60;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .2s ease}
 .dd button{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;font:500 14px var(--sans);text-align:left;transition:background .08s;border-left:2px solid transparent}
 .dd button:hover{background:var(--elev);border-left-color:var(--bl)}
 .dd .ck{font:500 11px var(--mono);color:var(--t4);margin-left:auto;background:var(--bg);padding:2px 8px;border-radius:4px}
-
 .stn{background:var(--card);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;user-select:none}
 .stn:hover{border-color:var(--bh);transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
 .stn:active{transform:scale(.998)}.stn.best{border-color:rgba(34,197,94,.18)}
@@ -173,16 +163,14 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .live{width:6px;height:6px;border-radius:50%;background:var(--grn);animation:livePulse 2s ease-in-out infinite}
 .lds{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:200;transition:opacity .5s ease,visibility .5s}
 .lds.off{opacity:0;visibility:hidden;pointer-events:none}
-
 .toast{position:fixed;top:64px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--t2);font:500 13px var(--sans);z-index:100;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(0,0,0,.3);animation:toastIn .3s ease,toastOut .3s ease 2.5s forwards;pointer-events:none}
-
 .view-toggle{display:flex;border-radius:10px;border:1.5px solid var(--border);overflow:hidden;background:var(--card)}
 .view-toggle button{padding:8px 16px;font:600 12px var(--sans);color:var(--t3);transition:all .15s;border-right:1px solid var(--border)}
 .view-toggle button:last-child{border-right:none}
 .view-toggle button.on{background:var(--blg);color:var(--bl)}
-
-
-
+@media(max-width:480px){.view-toggle button{padding:8px 12px}.view-toggle .vt-label{display:none}}
+.brand-select{text-align:center;text-align-last:center}
+.brand-select option{text-align:center}
 .tab-section{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
 .tab-header{display:flex;border-bottom:1px solid var(--border)}
 .tab-header button{flex:1;padding:12px;font:600 13px var(--sans);color:var(--t3);transition:all .12s;border-bottom:2px solid transparent}
@@ -190,11 +178,9 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .tab-body{padding:14px}
 .tab-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
 .tab-row:last-child{border-bottom:none}
-
 .theme-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--t3);transition:border-color .15s,color .15s}
 .theme-btn:hover{border-color:var(--bh);color:var(--t2)}
 .theme-btn:active{transform:scale(.9)}
-
 .map-box{width:100%;height:420px;border-radius:14px;overflow:hidden;border:1.5px solid var(--border);margin-bottom:12px}
 @media(min-width:768px){.map-box{height:500px}}
 .leaflet-container{background:var(--bg) !important}
@@ -208,7 +194,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .loc-btn:hover{transform:translateY(-1px)}.loc-btn:active{transform:scale(.96)}
 .loc-btn.active{border:1.5px solid rgba(59,130,246,.2);background:var(--blg);color:var(--bl)}
 .loc-btn.inactive{border:1.5px solid var(--border);background:var(--card);color:var(--t3)}
-
 .share-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--t4);transition:all .15s;flex-shrink:0}
 .share-btn:hover{border-color:var(--bh);color:var(--t2)}
 </style>
@@ -243,7 +228,6 @@ const FL={regular:"Régulier",super:"Super",diesel:"Diesel"};
 const MEM=["Costco"];const PG=12;const MORE=20;
 const COSTCO_IMG="https://play-lh.googleusercontent.com/WIdPqETfzE7sfSQTElsQyHm-EDqh1v82xJkhBo9jil2-QP6dk8c3PjfVpvvLlpsHfhI=w240-h480-rw";
 const BC={Costco:"#E31837","Petro-Canada":"#D62828",Shell:"#FDD835",Esso:"#1565C0","Couche-Tard":"#E53935",Ultramar:"#1976D2",Harnois:"#2E7D32",Sonic:"#E64A19",Crevier:"#558B2F",Axco:"#F57F17",Pioneer:"#1E88E5","Canadian Tire":"#D32F2F",Pétro:"#FF6F00"};
-
 const parseP=p=>{if(!p)return null;const n=parseFloat(String(p).replace(/[¢¢$\s]/g,""));return isNaN(n)?null:n};
 const hav=(a,b,c,d)=>{const R=6371,dL=(c-a)*Math.PI/180,dN=(d-b)*Math.PI/180;const x=Math.sin(dL/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dN/2)**2;return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x))};
 const lr=(a,b,t)=>Math.round(a+(b-a)*t);
@@ -252,7 +236,6 @@ const isM=b=>MEM.includes(b);
 const fmtDrive=km=>{if(km<1)return"~1 min";const speed=km<10?40:km<30?50:70;const min=Math.round(km/speed*60);return min<60?"~"+min+" min":"~"+Math.floor(min/60)+"h"+String(min%60).padStart(2,"0")};
 const fmtP=p=>{if(!p)return"--";return p.toFixed(1)};
 const fmtAgo=d=>{const s=Math.floor((Date.now()-d.getTime())/1000);if(s<60)return"maintenant";const m=Math.floor(s/60);if(m<60)return m+" min";return Math.floor(m/60)+"h"};
-
 function LoadScreen({show}){
   return(<div className={"lds"+(show?"":" off")}>
     <div style={{animation:"float 3s ease-in-out infinite",marginBottom:32}}>
@@ -279,12 +262,10 @@ function LoadScreen({show}){
     </div>
   </div>);
 }
-
 function Toast({msg}){
   if(!msg)return null;
   return <div className="toast"><div className="live" style={{width:5,height:5}}/>{msg}</div>;
 }
-
 function App(){
   const [st,setSt]=useState([]);const [ld,setLd]=useState(true);const [rdy,setRdy]=useState(false);
   const [meta,setMeta]=useState(null);const [lr,setLr]=useState(null);
@@ -297,7 +278,7 @@ function App(){
   const [brandFilter,setBrandFilter]=useState(null);
   const [theme,setTheme]=useState("dark");
   const [toast,setToast]=useState(null);
-  const sRef=useRef(null);const mapBoxRef=useRef(null);const mapObjRef=useRef(null);const mapMarkersRef=useRef([]);const dbRef=useRef(null);
+  const sRef=useRef(null);const mapBoxRef=useRef(null);const mapObjRef=useRef(null);const mapMarkersRef=useRef([]);const dbRef=useRef(null);const clusterRef=useRef(null);const meMarkerRef=useRef(null);
   const [key,setKey]=useState(0);
   const [showTop,setShowTop]=useState(false);
   useEffect(()=>{const h=()=>setShowTop(window.scrollY>400);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h)},[]);
@@ -306,13 +287,10 @@ function App(){
   const saveFavs=nf=>{setFavs(nf);try{localStorage.setItem("eqc-favs",JSON.stringify(nf))}catch{}};
   const toggleFav=s=>{const id=s.name+"|"+s.lat;if(favs.includes(id))saveFavs(favs.filter(f=>f!==id));else saveFavs([...favs,id])};
   const isFav=s=>favs.includes(s.name+"|"+s.lat);
-
   const showToast=msg=>{setToast(msg);setTimeout(()=>setToast(null),3000)};
-
   // Theme
   useEffect(()=>{document.documentElement.setAttribute("data-theme",theme)},[theme]);
   const toggleTheme=()=>{setTheme(t=>t==="dark"?"light":"dark")};
-
   // Fetch
   const fetchD=useCallback(async(silent=false)=>{
     if(!silent)setLd(true);
@@ -353,22 +331,19 @@ function App(){
       if(!rdy)setTimeout(()=>setRdy(true),900);
     }catch(e){console.error(e);if(!rdy)setRdy(true);}finally{setLd(false)}
   },[rdy]);
-
   useEffect(()=>{fetchD();const iv=setInterval(()=>fetchD(true),300000);return()=>clearInterval(iv)},[]);
-
   // Geo
   const reqGeo=useCallback(()=>{
     if(!navigator.geolocation){setGs("unavailable");return}setGs("loading");
     navigator.geolocation.getCurrentPosition(
       p=>{setCtr({lat:p.coords.latitude,lon:p.coords.longitude,label:"Ma position"});setGs("granted")},
       e=>{setGs(e.code===1?"denied":"error")},
-      {enableHighAccuracy:false,timeout:15000,maximumAge:120000}
+      {enableHighAccuracy:true,timeout:15000,maximumAge:0}
     );
   },[]);
   useEffect(()=>{reqGeo()},[reqGeo]);
   const [geoTimeout,setGeoTimeout]=useState(false);
   useEffect(()=>{if(gs==="loading"){const t=setTimeout(()=>setGeoTimeout(true),8000);return()=>clearTimeout(t)}else{setGeoTimeout(false)}},[gs]);
-
   // Search
   const doSearch=useCallback(v=>{
     if(!v.trim()){setSug([]);return}
@@ -380,7 +355,6 @@ function App(){
   const useMe=()=>{setQ("");setSug([]);reqGeo();setSel(null);setVis(PG);setKey(k=>k+1)};
   useEffect(()=>{const h=e=>{if(sRef.current&&!sRef.current.contains(e.target))setSug([])};document.addEventListener("mousedown",h);return()=>document.removeEventListener("mousedown",h)},[]);
   useEffect(()=>{setVis(PG);setSel(null)},[fuel,rad]);
-
   // Keyboard shortcuts
   useEffect(()=>{const h=e=>{
     if(e.target.tagName==="INPUT")return;
@@ -388,7 +362,6 @@ function App(){
     if(e.key==="1")setFuel("regular");if(e.key==="2")setFuel("super");if(e.key==="3")setFuel("diesel");
     if(e.key==="l"||e.key==="L")setView("list");
   };document.addEventListener("keydown",h);return()=>document.removeEventListener("keydown",h)},[]);
-
   // Filtered
   const filt=useMemo(()=>{
     if(!ctr)return[];
@@ -396,19 +369,16 @@ function App(){
     if(brandFilter)r=r.filter(s=>s.brand===brandFilter);
     return r.sort((a,b)=>sort==="price"?a[fuel]-b[fuel]:a.dist-b.dist);
   },[ctr,fuel,rad,st,sort,brandFilter]);
-
   const ch=filt[0]?.[fuel]||0,pr=filt[filt.length-1]?.[fuel]||0,sp=pr-ch;
   const avg=filt.length?filt.reduce((a,s)=>a+s[fuel],0)/filt.length:0;
   const shown=filt.slice(0,vis),hasMore=vis<filt.length;
   const favFilt=useMemo(()=>filt.filter(s=>isFav(s)),[filt,favs]);
-
   // All brands in range
   const brandsInRange=useMemo(()=>{
     const map=new Map();
     filt.forEach(s=>{if(!map.has(s.brand))map.set(s.brand,0);map.set(s.brand,map.get(s.brand)+1)});
     return[...map.entries()].sort((a,b)=>b[1]-a[1]).map(([b,c])=>({brand:b,count:c}));
   },[filt]);
-
   // Regions data
   const regions=useMemo(()=>{
     if(!ctr)return[];
@@ -420,7 +390,6 @@ function App(){
     });
     return[...map.entries()].map(([name,d])=>({name,avg:d.prices.reduce((a,b)=>a+b,0)/d.prices.length,min:Math.min(...d.prices),count:d.count})).sort((a,b)=>a.avg-b.avg);
   },[st,fuel,ctr]);
-
   // Brand ranking
   const brandRanking=useMemo(()=>{
     if(!ctr)return[];
@@ -431,7 +400,6 @@ function App(){
     });
     return[...map.entries()].map(([brand,d])=>({brand,avg:d.prices.reduce((a,b)=>a+b,0)/d.prices.length,min:Math.min(...d.prices),count:d.count})).filter(r=>r.count>=1).sort((a,b)=>a.avg-b.avg);
   },[filt,fuel]);
-
   // Share
   const shareStn=async(s,e)=>{
     e.stopPropagation();
@@ -440,12 +408,21 @@ function App(){
     try{await navigator.clipboard.writeText(text);showToast("Copié!")}catch{}
   };
 
-  
-
-
   // Map
   useEffect(()=>{
     if(view!=="map"||!mapBoxRef.current||!ctr||!filt.length)return;
+    // Si l'instance Leaflet existante pointe vers un conteneur detache, on la detruit
+    if(mapObjRef.current){
+      try{
+        const c=mapObjRef.current.getContainer();
+        if(!c||c!==mapBoxRef.current||!document.body.contains(c)){
+          mapObjRef.current.remove();
+          mapObjRef.current=null;clusterRef.current=null;meMarkerRef.current=null;mapMarkersRef.current=[];
+        }
+      }catch(e){
+        mapObjRef.current=null;clusterRef.current=null;meMarkerRef.current=null;mapMarkersRef.current=[];
+      }
+    }
     if(!mapObjRef.current){
       try{
         const m=L.map(mapBoxRef.current,{zoomControl:false,attributionControl:false,preferCanvas:true});
@@ -458,30 +435,59 @@ function App(){
         mapObjRef.current=m;
         setTimeout(()=>{try{m.invalidateSize()}catch(e){}},200);
         setTimeout(()=>{try{m.invalidateSize()}catch(e){}},600);
-      }catch(e){console.error(e)}
+      }catch(e){console.error(e);return;}
     }else{
       mapObjRef.current.setView([ctr.lat,ctr.lon],11);
       setTimeout(()=>{try{mapObjRef.current.invalidateSize()}catch(e){}},100);
     }
-    if(mapMarkersRef.current.length){mapMarkersRef.current.forEach(m=>{try{mapObjRef.current.removeLayer(m)}catch(e){}});mapMarkersRef.current=[];}
+    // Nettoyer le cluster et le marqueur "moi" precedents
+    if(clusterRef.current){try{mapObjRef.current.removeLayer(clusterRef.current)}catch(e){}clusterRef.current=null;}
+    if(meMarkerRef.current){try{mapObjRef.current.removeLayer(meMarkerRef.current)}catch(e){}meMarkerRef.current=null;}
+    mapMarkersRef.current=[];
+    // Cluster group avec icone personnalisee
+    const cluster=L.markerClusterGroup({
+      maxClusterRadius:55,
+      showCoverageOnHover:false,
+      spiderfyOnMaxZoom:true,
+      chunkedLoading:true,
+      iconCreateFunction:function(c){
+        const n=c.getChildCount();
+        const size=n<10?34:n<50?40:48;
+        return L.divIcon({
+          html:'<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:rgba(59,130,246,.85);color:#fff;display:flex;align-items:center;justify-content:center;font-family:IBM Plex Mono,monospace;font-weight:700;font-size:13px;border:2px solid '+(theme==="dark"?"#0A0A0C":"#fff")+';box-shadow:0 2px 8px rgba(0,0,0,.35)">'+n+'</div>',
+          className:"",
+          iconSize:[size,size]
+        });
+      }
+    });
     const best=filt[0]?.[fuel]||0;const worst=filt[filt.length-1]?.[fuel]||0;const range=worst-best;
-    filt.slice(0,150).forEach((s,i)=>{
+    filt.forEach((s,i)=>{
       const diff=s[fuel]-best;const t=range>0?Math.min(diff/range,1):0;
       const color=t<.33?"#22C55E":t<.66?"#FBBF24":"#EF4444";
       const r=i===0?8:5;
       const icon=L.divIcon({className:"",html:'<div style="width:'+r*2+'px;height:'+r*2+'px;border-radius:50%;background:'+color+';border:2px solid '+(theme==="dark"?"#0A0A0C":"#fff")+';box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>',iconSize:[r*2,r*2],iconAnchor:[r,r]});
-      const mk=L.marker([s.lat,s.lon],{icon}).addTo(mapObjRef.current);
+      const mk=L.marker([s.lat,s.lon],{icon});
       const bl=s.brand!=="Aucun"&&s.brand!=="Autre"?s.brand:s.name;
       mk.bindPopup('<div style="font-family:Plus Jakarta Sans,sans-serif;font-size:13px;line-height:1.4"><b>'+bl+'</b><br><span style="font-family:IBM Plex Mono,monospace;font-size:16px;font-weight:700;color:'+color+'">'+fmtP(s[fuel])+' ¢/L</span><br><span style="color:#888">'+s.dist.toFixed(1)+' km</span></div>',{closeButton:false,className:""});
+      cluster.addLayer(mk);
       mapMarkersRef.current.push(mk);
     });
+    mapObjRef.current.addLayer(cluster);
+    clusterRef.current=cluster;
+    // Marqueur bleu pour ta position
+    if(ctr.label==="Ma position"){
+      const meIcon=L.divIcon({
+        className:"",
+        html:'<div style="width:18px;height:18px;border-radius:50%;background:#3B82F6;border:3px solid #fff;box-shadow:0 0 0 3px rgba(59,130,246,.3),0 2px 6px rgba(0,0,0,.4)"></div>',
+        iconSize:[18,18],
+        iconAnchor:[9,9]
+      });
+      meMarkerRef.current=L.marker([ctr.lat,ctr.lon],{icon:meIcon,zIndexOffset:1000}).addTo(mapObjRef.current);
+    }
   },[view,ctr,filt,theme]);
-
   // Cleanup map when switching away
-  useEffect(()=>{if(view!=="map"&&mapObjRef.current){mapObjRef.current.remove();mapObjRef.current=null;mapMarkersRef.current=[];}},[view]);
-
+  useEffect(()=>{if(view!=="map"&&mapObjRef.current){try{mapObjRef.current.remove()}catch(e){}mapObjRef.current=null;clusterRef.current=null;meMarkerRef.current=null;mapMarkersRef.current=[];}},[view]);
   const mu=s=>"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(s.lat+","+s.lon);
-
   return(
     <>
       <LoadScreen show={!rdy}/>
@@ -516,8 +522,7 @@ function App(){
               </div>
             </div>
           </header>
-
-          <main className="mx" style={{flex:1,paddingTop:16,paddingBottom:80}}>
+          <main className="mx" style={{flex:1,paddingTop:16,paddingBottom:50}}>
             {/* Search */}
             <div className="en d1" ref={sRef} style={{position:"relative",marginBottom:10,zIndex:30}}>
               <div className="si">
@@ -527,7 +532,6 @@ function App(){
               </div>
               {sug.length>0&&<div className="dd">{sug.map((c,i)=>(<button key={i} onClick={()=>pickCity(c)}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t4)" strokeWidth="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span style={{fontWeight:500}}>{c.name}</span><span className="ck">{c.count}</span></button>))}</div>}
             </div>
-
             {/* Location + tank */}
             <div className="en d2" style={{display:"flex",gap:6,marginBottom:14,flexWrap:"wrap",alignItems:"center"}}>
               <button className={"loc-btn "+(ctr?.label==="Ma position"?"active":"inactive")} onClick={useMe}>
@@ -547,7 +551,6 @@ function App(){
                 </select>
               </div>
             </div>
-
             {/* Fuel + Sort */}
             <div className="en d3" style={{display:"flex",gap:5,marginBottom:10,flexWrap:"wrap",alignItems:"center"}}>
               <div style={{display:"flex",gap:4}}>
@@ -562,9 +565,6 @@ function App(){
                 {["regular","super","diesel"].map((f,i)=>(<button key={f} className={"chip"+(fuel===f?" on":"")} onClick={()=>setFuel(f)} title={`Raccourci: ${i+1}`}>{FL[f]}</button>))}
               </div>
             </div>
-
-
-
             {/* Radius */}
             <div className="en d5" style={{marginBottom:18}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
@@ -576,7 +576,6 @@ function App(){
                 <input type="range" min={1} max={100} step={1} value={rad} onChange={e=>setRad(Number(e.target.value))}/>
               </div>
             </div>
-
             {/* Empty state */}
             {!ctr&&(
               <div className="en d6" style={{textAlign:"center",padding:"40px 20px",background:"var(--card)",borderRadius:16,border:"1px solid var(--border)"}}>
@@ -621,7 +620,6 @@ function App(){
                 )}
               </div>
             )}
-
             {/* Results */}
             {ctr&&(
               <div key={key}>
@@ -629,15 +627,15 @@ function App(){
                 <div className="en d6" style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14,gap:8}}>
                   <div className="view-toggle">
                     {[{k:"list",l:"Liste",ico:<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>},
-                      
+
                       {k:"map",l:"Carte",ico:<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>},
                       {k:"regions",l:"Régions",ico:<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>},
                       {k:"brands",l:"Marques",ico:<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>}
-                    ].map(v=>(<button key={v.k} className={view===v.k?"on":""} onClick={()=>setView(v.k)} style={{display:"flex",alignItems:"center",gap:4}}>{v.ico}{v.l}</button>))}
+                    ].map(v=>(<button key={v.k} className={view===v.k?"on":""} onClick={()=>setView(v.k)} style={{display:"flex",alignItems:"center",gap:4}} title={v.l}>{v.ico}<span className="vt-label">{v.l}</span></button>))}
                   </div>
                   {brandsInRange.length>1&&(
-                    <select value={brandFilter||""} onChange={e=>setBrandFilter(e.target.value||null)}
-                      style={{height:36,padding:"0 28px 0 10px",borderRadius:9,border:"1.5px solid var(--border)",background:"var(--card)",color:brandFilter?"var(--bl)":"var(--t3)",fontSize:12,fontWeight:600,fontFamily:"var(--sans)",outline:"none",cursor:"pointer",appearance:"none",WebkitAppearance:"none",backgroundImage:`url("data:image/svg+xml,${encodeURIComponent('<svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M1 1l4 4 4-4\" stroke=\"%236E6E78\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>')}")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 10px center",transition:"all .15s",maxWidth:160}}>
+                    <select className="brand-select" value={brandFilter||""} onChange={e=>setBrandFilter(e.target.value||null)}
+                      style={{height:36,padding:"0 28px 0 10px",borderRadius:9,border:"1.5px solid var(--border)",background:"var(--card)",color:brandFilter?"var(--bl)":"var(--t3)",fontSize:12,fontWeight:600,fontFamily:"var(--sans)",outline:"none",cursor:"pointer",appearance:"none",WebkitAppearance:"none",backgroundImage:`url("data:image/svg+xml,${encodeURIComponent('<svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M1 1l4 4 4-4\" stroke=\"%236E6E78\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>')}")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 10px center",transition:"all .15s",maxWidth:160,textAlign:"center",textAlignLast:"center"}}>
                       <option value="">Toutes les marques</option>
                       {brandsInRange.filter(b=>b.brand!=="Aucun"&&b.brand!=="Autre").map(b=>(
                         <option key={b.brand} value={b.brand}>{b.brand} ({b.count})</option>
@@ -645,7 +643,6 @@ function App(){
                     </select>
                   )}
                 </div>
-
                 {/* Hero */}
                 {filt.length>0&&view==="list"&&(
                   <div className="hero en d7" style={{marginBottom:14,position:"relative"}}>
@@ -667,7 +664,6 @@ function App(){
                     )}
                   </div>
                 )}
-
                 {/* Stats */}
                 {view==="list"&&(
                   <div className="en d8" style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:5,marginBottom:12}}>
@@ -676,7 +672,6 @@ function App(){
                   </div>
                 )}
 
-                
                 {/* MAP VIEW */}
                 {view==="map"&&(
                   <div className="en d7">
@@ -686,10 +681,9 @@ function App(){
                       <span style={{display:"flex",alignItems:"center",gap:4}}><span style={{width:8,height:8,borderRadius:"50%",background:"#FBBF24"}}/>Moyen</span>
                       <span style={{display:"flex",alignItems:"center",gap:4}}><span style={{width:8,height:8,borderRadius:"50%",background:"#EF4444"}}/>Plus cher</span>
                     </div>
-                    <div style={{textAlign:"center",fontSize:11,color:"var(--t5)",marginTop:4}}>{Math.min(filt.length,150)} stations affichées</div>
+                    <div style={{textAlign:"center",fontSize:11,color:"var(--t5)",marginTop:4}}>{filt.length} stations affichées</div>
                   </div>
                 )}
-
                 {/* REGIONS VIEW */}
                 {view==="regions"&&(
                   <div className="tab-section en d7">
@@ -713,7 +707,6 @@ function App(){
                     </div>
                   </div>
                 )}
-
                 {/* BRANDS VIEW */}
                 {view==="brands"&&(
                   <div className="tab-section en d7">
@@ -740,13 +733,11 @@ function App(){
                     </div>
                   </div>
                 )}
-
                 {/* LIST VIEW */}
                 {view==="list"&&(
                   <>
                     <div className="en d9" style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:7,padding:"0 2px"}}>
                       <span style={{fontSize:11,color:"var(--t3)"}}>{sort==="price"?"Triées par prix "+FL[fuel].toLowerCase():"Triées par distance"}</span>
-                      <span style={{display:"flex",alignItems:"center",gap:3,fontSize:9,color:"var(--t4)"}}><span className="mbg" style={{height:13,padding:"0 3px"}}><img src={COSTCO_IMG} alt="C" style={{height:9}}/></span>Membres</span>
                     </div>
                     {/* Favoris */}
                 {favFilt.length>0&&(
@@ -884,7 +875,7 @@ function App(){
                         </div>
                         {hasMore&&<button className="more-btn" onClick={()=>setVis(v=>v+MORE)}>Voir {Math.min(MORE,filt.length-vis)} stations de plus</button>}
                     <button onClick={async()=>{const text="EssenceQC - Compare les prix d'essence en temps réel partout au Québec. Gratuit, sans pub.\nhttps://essence-qc.com";if(navigator.share){try{await navigator.share({title:"EssenceQC",text,url:"https://essence-qc.com"});return}catch{}}try{await navigator.clipboard.writeText(text);showToast("Lien copié!")}catch{}}}
-                      style={{marginTop:8,width:"100%",height:42,borderRadius:12,border:"1.5px solid rgba(59,130,246,.15)",background:"var(--blg)",color:"var(--bl)",fontSize:13,fontWeight:600,cursor:"pointer",transition:"all .15s",fontFamily:"var(--sans)",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+                      style={{marginTop:18,marginBottom:10,width:"100%",height:42,borderRadius:12,border:"1.5px solid rgba(59,130,246,.15)",background:"var(--blg)",color:"var(--bl)",fontSize:13,fontWeight:600,cursor:"pointer",transition:"all .15s",fontFamily:"var(--sans)",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
                       Partager EssenceQC
                     </button>
@@ -895,7 +886,6 @@ function App(){
               </div>
             )}
           </main>
-
           <footer style={{borderTop:"1px solid var(--border)",padding:"16px 0"}}>
             <div className="mx" style={{display:"flex",flexDirection:"column",alignItems:"center",gap:10}}>
               <div style={{display:"flex",alignItems:"center",gap:5,fontSize:10,color:"var(--t5)",flexWrap:"wrap",justifyContent:"center"}}>

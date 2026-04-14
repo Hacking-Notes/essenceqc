@@ -180,6 +180,19 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .mini-map-link::after{content:"\2197 Google Maps";position:absolute;bottom:7px;right:7px;background:rgba(0,0,0,.78);color:#fff;font:600 9px var(--mono);padding:4px 8px;border-radius:5px;pointer-events:none;opacity:.85;transition:opacity .2s,background .2s;z-index:1000;letter-spacing:.3px}
 .mini-map-link:hover::after{opacity:1;background:var(--bl)}
 .mini-map-link .leaflet-container{pointer-events:none}
+@keyframes slideUpBanner{from{transform:translateY(120%);opacity:0}to{transform:translateY(0);opacity:1}}
+.install-banner{position:fixed;left:12px;right:12px;bottom:12px;max-width:600px;margin:0 auto;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 12px 40px rgba(0,0,0,.35);z-index:90;animation:slideUpBanner .5s cubic-bezier(.22,1,.36,1)}
+.install-banner-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--bl));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(59,130,246,.3)}
+.install-banner-text{flex:1;min-width:0}
+.install-banner-title{font:700 13px var(--sans);color:var(--t1);margin-bottom:2px}
+.install-banner-sub{font:500 11px var(--sans);color:var(--t3);line-height:1.35}
+.install-banner-btn{padding:9px 16px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--bl));color:#fff;font:700 12px var(--sans);cursor:pointer;flex-shrink:0;transition:all .15s;border:none;-webkit-tap-highlight-color:transparent}
+.install-banner-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(59,130,246,.4)}
+.install-banner-btn:active{transform:scale(.96)}
+.install-banner-close{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--t4);transition:all .12s;flex-shrink:0;border:none;background:none;cursor:pointer}
+.install-banner-close:hover{background:var(--overlay);color:var(--t2)}
+.install-ios-steps{font:500 11px var(--sans);color:var(--t3);line-height:1.4}
+.install-ios-steps b{color:var(--bl);font-weight:700}
 .tab-section{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
 .tab-header{display:flex;border-bottom:1px solid var(--border)}
 .tab-header button{flex:1;padding:12px;font:600 13px var(--sans);color:var(--t3);transition:all .12s;border-bottom:2px solid transparent}
@@ -351,6 +364,44 @@ function App(){
   useEffect(()=>{try{localStorage.setItem("eqc-fuel",fuel)}catch{}},[fuel]);
   useEffect(()=>{try{localStorage.setItem("eqc-tank",String(tank))}catch{}},[tank]);
   useEffect(()=>{try{localStorage.setItem("eqc-theme",theme)}catch{}},[theme]);
+  // PWA install banner (uniquement sur mobile, non installee, non rejetee recemment)
+  const [installEvent,setInstallEvent]=useState(null);
+  const [showInstall,setShowInstall]=useState(false);
+  const [isIOS,setIsIOS]=useState(false);
+  useEffect(()=>{
+    const ua=navigator.userAgent||"";
+    const isMobile=/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua)||(navigator.maxTouchPoints>1&&window.innerWidth<900);
+    if(!isMobile)return;
+    const standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
+    if(standalone)return;
+    try{
+      const dismissed=parseInt(localStorage.getItem("eqc-install-dismissed"),10);
+      if(Number.isFinite(dismissed)&&Date.now()-dismissed<7*24*60*60*1000)return;
+    }catch{}
+    const ios=/iPad|iPhone|iPod/.test(ua)||(navigator.maxTouchPoints>1&&/Mac/i.test(navigator.platform));
+    if(ios){
+      setIsIOS(true);
+      const t=setTimeout(()=>setShowInstall(true),8000);
+      return()=>clearTimeout(t);
+    }
+    const handler=e=>{e.preventDefault();setInstallEvent(e);setTimeout(()=>setShowInstall(true),8000);};
+    window.addEventListener("beforeinstallprompt",handler);
+    const installed=()=>setShowInstall(false);
+    window.addEventListener("appinstalled",installed);
+    return()=>{window.removeEventListener("beforeinstallprompt",handler);window.removeEventListener("appinstalled",installed);};
+  },[]);
+  const triggerInstall=async()=>{
+    if(!installEvent)return;
+    try{
+      installEvent.prompt();
+      const r=await installEvent.userChoice;
+      if(r.outcome==="accepted"){setShowInstall(false);setInstallEvent(null);}
+    }catch{}
+  };
+  const dismissInstall=()=>{
+    setShowInstall(false);
+    try{localStorage.setItem("eqc-install-dismissed",String(Date.now()))}catch{}
+  };
   // Fetch
   const fetchD=useCallback(async(silent=false)=>{
     if(!silent)setLd(true);
@@ -762,17 +813,17 @@ function App(){
                   <div className="en d7">
                     <div className="map-box" ref={mapBoxRef}/>
                     <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:14,padding:"6px 0",flexWrap:"wrap"}}>
-                      <span style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:11,color:"var(--t3)",fontWeight:500}}>
-                        <span style={{width:9,height:9,borderRadius:"50%",background:"#22C55E"}}/>Moins cher
-                      </span>
+                      <button className="map-legend-btn" onClick={()=>flyToPrice("min")} title="Aller au moins cher">
+                        <span className="ldot" style={{background:"#22C55E"}}/>Moins cher
+                      </button>
                       <span style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:11,color:"var(--t3)",fontWeight:500}}>
                         <span style={{width:9,height:9,borderRadius:"50%",background:"#FBBF24"}}/>Moyen
                       </span>
-                      <button className="map-legend-btn" onClick={()=>flyToPrice("max")} title="Aller au plus cher">
-                        <span className="ldot" style={{background:"#EF4444"}}/>Plus cher
-                      </button>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:11,color:"var(--t3)",fontWeight:500}}>
+                        <span style={{width:9,height:9,borderRadius:"50%",background:"#EF4444"}}/>Plus cher
+                      </span>
                     </div>
-                    <div style={{textAlign:"center",fontSize:11,color:"var(--t5)",marginTop:4}}>{filt.length} stations affichées · cliquez « Plus cher » pour le localiser</div>
+                    <div style={{textAlign:"center",fontSize:11,color:"var(--t5)",marginTop:4}}>{filt.length} stations affichées · cliquez « Moins cher » pour le localiser</div>
                   </div>
                 )}
                 {/* REGIONS VIEW */}
@@ -996,6 +1047,35 @@ function App(){
           <button className={"top-btn"+(showTop?" show":"")} onClick={scrollTop} title="Retour en haut">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 15l-6-6-6 6"/></svg>
           </button>
+          {/* Install banner (mobile uniquement) */}
+          {showInstall&&(
+            <div className="install-banner" role="dialog" aria-label="Installer l'application">
+              <div className="install-banner-icon">
+                <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="6" width="14" height="18" rx="2.5" fill="#fff"/>
+                  <rect x="6" y="9" width="8" height="5" rx="1.2" fill="var(--blue)" opacity=".55"/>
+                  <rect x="8" y="16" width="4" height="2" rx=".8" fill="var(--blue)" opacity=".4"/>
+                  <rect x="6" y="2" width="8" height="4.5" rx="1.5" fill="#fff" opacity=".75"/>
+                  <path d="M17 11h2.5a2.5 2.5 0 012.5 2.5V20a2 2 0 01-2 2h0a2 2 0 01-2-2v-3" stroke="#fff" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                  <circle cx="20" cy="11" r="1.2" fill="#fff"/>
+                </svg>
+              </div>
+              <div className="install-banner-text">
+                <div className="install-banner-title">Installer EssenceQC</div>
+                {isIOS?(
+                  <div className="install-ios-steps">Tapez <b>Partager</b> puis <b>Sur l'écran d'accueil</b></div>
+                ):(
+                  <div className="install-banner-sub">Accès rapide depuis votre écran d'accueil, sans navigateur</div>
+                )}
+              </div>
+              {!isIOS&&installEvent&&(
+                <button className="install-banner-btn" onClick={triggerInstall}>Installer</button>
+              )}
+              <button className="install-banner-close" onClick={dismissInstall} title="Fermer" aria-label="Fermer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>

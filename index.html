@@ -775,17 +775,16 @@ function App(){
                                       {diff===0?<span style={{color:"var(--grn)",fontWeight:600}}>Meilleur</span>:<span style={{color:"var(--red)",fontFamily:"var(--mono)"}}>+{diff.toFixed(1)}{"¢"}</span>}
                                     </div>
                                   </div>
-                                  <div style={{textAlign:"right",flexShrink:0}}>
-                                    <div style={{fontFamily:"var(--mono)",fontSize:19,fontWeight:600,color:isB?"var(--grn)":"var(--t1)",lineHeight:1,fontVariantNumeric:"tabular-nums"}}>{fmtP(price)}</div>
-                                    <div style={{fontSize:9,color:"var(--t4)",fontFamily:"var(--mono)",marginTop:1}}>{(price*tank/100).toFixed(0)}$ /{tank}L</div>
-                                  </div>
-                                  {/* Share */}
                                   <button className="share-btn" onClick={e=>{e.stopPropagation();toggleFav(s)}} title={isFav(s)?"Retirer des favoris":"Ajouter aux favoris"} style={{color:isFav(s)?"var(--red)":"var(--t4)",borderColor:isFav(s)?"rgba(239,68,68,.2)":"var(--border)"}}>
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill={isFav(s)?"var(--red)":"none"} stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
                                   </button>
                                   <button className="share-btn" onClick={(e)=>shareStn(s,e)} title="Partager">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
                                   </button>
+                                  <div style={{textAlign:"right",flexShrink:0}}>
+                                    <div style={{fontFamily:"var(--mono)",fontSize:19,fontWeight:600,color:isB?"var(--grn)":"var(--t1)",lineHeight:1,fontVariantNumeric:"tabular-nums"}}>{fmtP(price)}</div>
+                                    <div style={{fontSize:9,color:"var(--t4)",fontFamily:"var(--mono)",marginTop:1}}>{(price*tank/100).toFixed(0)}$ /{tank}L</div>
+                                  </div>
                                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--t4)" strokeWidth="2.5" strokeLinecap="round" style={{flexShrink:0,transition:"transform .2s",transform:isE?"rotate(180deg)":""}}>
                                     <path d="M6 9l6 6 6-6"/>
                                   </svg>
